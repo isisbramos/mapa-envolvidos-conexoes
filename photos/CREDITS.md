@@ -8,7 +8,7 @@ As fotos nesta pasta **não** estão sob a licença MIT do restante do repositó
 | flavio.jpg | Flávio Bolsonaro | Agência Senado · uso livre | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Foto_oficial_do_senador_Flávio_Bolsonaro_(v._AgSen)_(3x4).jpg) |
 | carlos.jpg | Carlos Bolsonaro | CC BY 2.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Carlos_Bolsonaro_durante_Encontro_Brasil-Rússia_em_2022.jpg) |
 | renan.jpg | Renan Calheiros | Agência Senado · uso livre | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Senador_Renan_Calheiros_MDB_-_AL.jpg) |
-| nunes.jpg | Cássio Nunes Marques | Domínio público (Secom/TSE) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nunes_Marques,_February_2025_(cropped).jpg) |
+| nunes.jpg | Kássio Nunes Marques | Domínio público (Secom/TSE) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nunes_Marques,_February_2025_(cropped).jpg) |
 | ramagem.jpg | Alexandre Ramagem | CC BY 3.0 (Câmara dos Deputados) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Delegado_Ramagem_(PL_-_RJ)_(cropped).jpg) |
 | heleno.jpg | General Augusto Heleno | CC BY 3.0 (Câmara dos Deputados) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Augusto_Heleno_(cropped).jpg) |
 | moro.jpg | Sérgio Moro | Domínio público | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Senador_da_República_Sérgio_Moro.jpg) |
