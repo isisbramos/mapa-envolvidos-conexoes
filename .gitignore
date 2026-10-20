@@ -2,3 +2,10 @@
 .DS_Store
 node_modules
 .env*
+
+# notas pessoais do vault isis-brain (não vão pro repo público)
+*.md
+!README.md
+!CONTRIBUTING.md
+!LICENSE
+!photos/CREDITS.md
