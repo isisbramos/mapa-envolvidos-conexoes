@@ -2,7 +2,7 @@
 
 Mapa interativo que visualiza pessoas, empresas e casos citados em investigações jornalísticas, com suas conexões documentadas ou alegadas.
 
-🔗 **Ver o mapa ao vivo:** https://vercel-deploy-one-blush-98.vercel.app
+🔗 **Ver o mapa ao vivo:** https://comquemandaflaviobolsonaro.space
 
 ## Estrutura viva
 
