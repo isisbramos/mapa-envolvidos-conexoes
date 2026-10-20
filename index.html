@@ -223,8 +223,11 @@ ul.conns { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .stage { display: inline-flex; align-items: center; min-height: 22px; padding: 1px 9px; border: 1px solid var(--ink-3); border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--ink); background: var(--bg); white-space: nowrap; }
 .stage.np { border-style: dashed; border-color: var(--line); color: var(--ink-3); font-weight: 500; }
 #panel .profile { margin-top: 4px; }
-#panel .profile h4 { margin: 14px 0 3px; font: 600 12px/1.3 var(--sans); color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
-#panel .profile p { margin: 0; color: var(--ink-2); font-size: 13.5px; line-height: 1.5; }
+#panel .profile h4 { margin: 18px 0 6px; font: 600 12px/1.3 var(--sans); color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+#panel .profile h4:first-child { margin-top: 0; }
+#panel .profile p { margin: 0; color: var(--ink-2); font-size: 13.5px; line-height: 1.55; }
+#panel .profile p + p { margin-top: 7px; }
+#panel .profile .fact { color: var(--ink); font-weight: 600; }
 #panel .profile .cav { border-left: 3px solid var(--line); padding-left: 10px; }
 #panel .profile .src { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; font-size: 13px; }
 #panel .profile .src a { display: inline-flex; align-items: center; min-height: 36px; color: var(--focus); text-underline-offset: 2px; overflow-wrap: anywhere; }
@@ -777,11 +780,14 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   function profileBlock(n) {
     const p = n.prof;
     if (!p) return "";
-    const row = (h, t) => t ? `<h4>${h}</h4><p>${esc(t)}</p>` : "";
+    const FACT = /(\b\d{1,2}\/\d{1,2}\/\d{2,4}\b)|(\b(?:jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)\/\d{2,4}\b)|((?:R\$|US\$)\s?[\d.,]+\s?(?:mi|mil|bi)?)|(\b\d{1,3}(?:,\d+)?%)/gi;
+    const highlight = s => esc(s).replace(FACT, m => `<b class="fact">${m}</b>`);
+    const splitSentences = s => s.split(/\.\s+(?=[A-ZÀÁÂÃÉÊÍÓÔÕÚÇ0-9(])/).filter(Boolean).map((seg, i, arr) => /[.!?)]$/.test(seg) || i === arr.length - 1 ? seg : seg + ".");
+    const row = (h, t) => t ? `<h4>${h}</h4>${splitSentences(t).map(seg => `<p>${highlight(seg)}</p>`).join("")}` : "";
     const np = p.stage === "Não pesquisado";
     return `<section class="profile" aria-label="Perfil">
       <h3>Perfil</h3>
-      ${np ? `<p>${esc(p.bio)}</p>` : row("Quem é", p.bio)}
+      ${np ? `<p>${highlight(p.bio)}</p>` : row("Quem é", p.bio)}
       ${row("Situação jurídica", p.legal)}
       ${row("Onde atua", p.loc)}
       ${row("Sobre milícia", p.mil)}
