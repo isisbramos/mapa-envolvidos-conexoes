@@ -312,13 +312,13 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   }
   body.has-selection #panel { transform: none; }
   #panel.dragging { transition: none; }
-  #panel .grab { display: flex; justify-content: center; padding: 10px 0 6px; touch-action: none; cursor: grab; flex: none; }
+  #panel .grab { display: flex; justify-content: center; align-items: center; min-height: 44px; padding: 0; touch-action: none; cursor: grab; flex: none; }
   #panel .grab i { width: 40px; height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--ink) 28%, transparent); }
   #panel .sheet-body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
   #panel[data-sheet="peek"] .sheet-body { overflow: hidden; }
   #panel[data-sheet="peek"] .desc, #panel[data-sheet="peek"] .detail { display: none; }
   #panel[data-sheet="peek"] .peek-hint { display: block; }
-  #panel .peek-hint { border: 0; background: none; padding: 4px 0 0; color: var(--focus); text-align: left; font-size: 13.5px; width: 100%; min-height: 32px; }
+  #panel .peek-hint { border: 0; background: none; padding: 4px 0 0; color: var(--focus); text-align: left; font-size: 13.5px; width: 100%; min-height: 44px; }
   #panel h2 { padding-right: 52px; font-size: 22px; }
   #panel .close { display: inline-flex; position: absolute; right: 8px; top: 8px; z-index: 2; }
   #panel .overview { display: none; }
