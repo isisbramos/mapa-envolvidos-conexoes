@@ -68,17 +68,27 @@ def main():
     for row in ws.iter_rows(min_row=2, values_only=True):
         if not row or not row[0]:
             continue
-        nid, label, typ, group, desc, _degree = row[:6]
+        nid, label, typ, group, desc, _degree, *rest = row
+        foto, credito, credito_url, nota = (list(rest) + [None] * 4)[:4]
         if group and group not in groups_order:
             groups_order.append(group)
-        nodes.append({
+        node = {
             "id": str(nid).strip(),
             "label": clean(label),
             "type": clean(typ),
             "group": clean(group),
             "desc": clean(desc),
             "degree": 0,  # filled in below from edges
-        })
+        }
+        if clean(foto):
+            node["img"] = f"photos/{clean(foto)}"
+        if clean(credito):
+            node["credit"] = clean(credito)
+        if clean(credito_url):
+            node["creditUrl"] = clean(credito_url)
+        if clean(nota):
+            node["imgNote"] = clean(nota)
+        nodes.append(node)
 
     # ---- Edges ----
     edges = []

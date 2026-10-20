@@ -225,8 +225,11 @@ ul.conns { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 #panel .profile { margin-top: 4px; }
 #panel .pf-photo { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 12px; }
 #panel .pf-photo img { width: 72px; height: 72px; border-radius: 10px; object-fit: cover; object-position: top center; border: 1px solid var(--line); flex: none; background: var(--panel); }
+#panel .pf-photo.loc img { object-position: center; }
+#panel .pf-meta { display: flex; flex-direction: column; gap: 2px; }
 #panel .pf-credit { color: var(--ink-3); font-size: 11px; line-height: 1.3; text-decoration: none; }
 #panel .pf-credit:hover { text-decoration: underline; }
+#panel .pf-note { color: var(--ink-3); font-size: 10px; line-height: 1.3; font-style: italic; }
 #panel .profile h4 { margin: 18px 0 6px; font: 600 12px/1.3 var(--sans); color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
 #panel .profile h4:first-child { margin-top: 0; }
 #panel .profile p { margin: 0; color: var(--ink-2); font-size: 13.5px; line-height: 1.55; }
@@ -781,18 +784,28 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
         <span class="bar"><i style="width:${(c / max * 100).toFixed(0)}%"></i></span></button></li>`).join("")}</ul>
       <p class="stagenote">Estágio não é veredito: só “Condenado” tem decisão condenatória. Toque para ver a lista.</p>`;
   }
+  function photoHtml(img, credit, creditUrl, alt, note, extraClass) {
+    if (!img) return "";
+    return `<div class="pf-photo${extraClass ? " " + extraClass : ""}">
+        <img src="${esc(img)}" alt="${esc(alt)}" loading="lazy" onerror="this.closest('.pf-photo').remove()">
+        ${(credit || note) ? `<div class="pf-meta">
+          ${credit ? `<a class="pf-credit" href="${esc(creditUrl || "#")}" target="_blank" rel="noopener noreferrer">${esc(credit)}</a>` : ""}
+          ${note ? `<span class="pf-note">${esc(note)}</span>` : ""}
+        </div>` : ""}
+      </div>`;
+  }
   function profileBlock(n) {
     const p = n.prof;
-    if (!p) return "";
+    if (!p) {
+      const photo = photoHtml(n.img, n.credit, n.creditUrl, "Foto de " + n.label, n.imgNote, "loc");
+      return photo ? `<section class="profile" aria-label="Imagem">${photo}</section>` : "";
+    }
     const FACT = /(\b\d{1,2}\/\d{1,2}\/\d{2,4}\b)|(\b(?:jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)\/\d{2,4}\b)|((?:R\$|US\$)\s?[\d.,]+\s?(?:mi|mil|bi)?)|(\b\d{1,3}(?:,\d+)?%)/gi;
     const highlight = s => esc(s).replace(FACT, m => `<b class="fact">${m}</b>`);
     const splitSentences = s => s.split(/\.\s+(?=[A-ZÀÁÂÃÉÊÍÓÔÕÚÇ0-9(])/).filter(Boolean).map((seg, i, arr) => /[.!?)]$/.test(seg) || i === arr.length - 1 ? seg : seg + ".");
     const row = (h, t) => t ? `<h4>${h}</h4>${splitSentences(t).map(seg => `<p>${highlight(seg)}</p>`).join("")}` : "";
     const np = p.stage === "Não pesquisado";
-    const photo = p.img ? `<div class="pf-photo">
-        <img src="${esc(p.img)}" alt="Foto de ${esc(n.label)}" loading="lazy" onerror="this.closest('.pf-photo').remove()">
-        ${p.credit ? `<a class="pf-credit" href="${esc(p.creditUrl || "#")}" target="_blank" rel="noopener noreferrer">${esc(p.credit)}</a>` : ""}
-      </div>` : "";
+    const photo = photoHtml(p.img, p.credit, p.creditUrl, "Foto de " + n.label);
     return `<section class="profile" aria-label="Perfil">
       ${photo}
       <h3>Perfil</h3>

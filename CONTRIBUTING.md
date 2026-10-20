@@ -18,7 +18,7 @@ A planilha tem estas abas:
 
 | Aba | Para quê |
 |---|---|
-| **Nodes** | Lista de pessoas/empresas/casos/instituições (`Id`, `Label`, `Type`, `Group`, `Description`). `Degree` é só referência visual na planilha — quem calcula de verdade é o script, a partir da aba Edges. |
+| **Nodes** | Lista de pessoas/empresas/casos/instituições (`Id`, `Label`, `Type`, `Group`, `Description`). `Degree` é só referência visual na planilha — quem calcula de verdade é o script, a partir da aba Edges. As 4 últimas colunas (`Foto (arquivo)`, `Crédito da foto`, `Link da fonte da foto`, `Nota da foto`) são opcionais: dá pra colocar foto em alguém mesmo sem perfil completo na aba Perfis. Se a pessoa tiver perfil na aba Perfis **e** foto aqui, a foto da aba Perfis prevalece. |
 | **Edges** | As conexões (`Source`, `Target`, `Label`, `Status` — "Documentado" ou "Alegado ou contestado"). `Source name`/`Target name` são fórmulas, não mexa. |
 | **Perfis** | O painel detalhado de quem tem perfil pesquisado: bio, situação jurídica, onde atua, milícia, ressalvas, fontes, datas — e as 3 últimas colunas (`Foto (arquivo)`, `Crédito da foto`, `Link da fonte da foto`) controlam a foto que aparece no perfil. |
 | **Notes** | Só documentação da planilha — não é lida pelo script (as notas do rodapé do site ficam direto no `index.html`, mudam raramente). |
