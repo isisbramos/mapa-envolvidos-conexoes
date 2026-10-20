@@ -42,6 +42,18 @@ CNN Brasil 12/09/2025 https://www.cnnbrasil.com.br/... | Metrópoles https://www
 
 Se preferir não mexer na planilha você mesma, é só me mandar o arquivo `.xlsx` atualizado (ou me dizer o que mudar) que eu rodo o resto.
 
+### Fluxo principal: colar transcrição/pesquisa no chat
+
+Esse é o jeito mais usado no dia a dia: cole uma transcrição de vídeo, reportagem ou resultado de pesquisa direto na conversa com o Claude. Ele:
+
+1. Extrai pessoas/empresas/conexões novas e atualizações de perfil do texto.
+2. Classifica `doc`/`alleg` conforme a fonte (regra no topo deste arquivo).
+3. Atualiza `data/mapa.xlsx` (nunca inventa fonte — se o texto não é claro, deixa de fora ou sinaliza para revisão).
+4. Roda `scripts/build.py`, testa local, mostra um resumo do que mudou.
+5. Commit + push (deploy automático).
+
+Identidade incerta (ex.: apelido sem confirmação de quem é) fica de fora até confirmar — mais vale faltar do que atribuir a pessoa errada.
+
 ### Adicionando foto de alguém
 
 Preencha as 3 colunas no fim da aba Perfis para a pessoa: nome do arquivo (ex. `fulano.jpg`, que precisa existir em `photos/`), o crédito (ex. "Agência Senado · uso livre") e o link da fonte. Prefira sempre Wikimedia Commons ou fotos oficiais de domínio público/licença aberta — veja `photos/CREDITS.md` para o padrão já usado.
