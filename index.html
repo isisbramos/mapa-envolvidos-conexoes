@@ -456,8 +456,8 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   const glyph = (type, color) => `<svg viewBox="-12 -12 24 24" aria-hidden="true"><path d="${shapePath(type, 7)}" fill="${color || "currentColor"}"/></svg>`;
 
   /* ---------- state ---------- */
-  const state = { hover: null, selected: null, hoverEdge: null, hotEdge: null, hoverGroup: null, query: "", hiddenGroups: new Set(), hiddenStatus: new Set() };
-  const nodeVisible = n => !state.hiddenGroups.has(n.group);
+  const state = { hover: null, selected: null, hoverEdge: null, hotEdge: null, hoverGroup: null, query: "", selectedGroups: new Set(), hiddenStatus: new Set() };
+  const nodeVisible = n => state.selectedGroups.size === 0 || state.selectedGroups.has(n.group);
   const edgeVisible = e => !state.hiddenStatus.has(e.status) && nodeVisible(e.source) && nodeVisible(e.target);
 
   /* ---------- svg scaffold ---------- */
@@ -924,7 +924,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     sc.alleg = links.length - sc.doc;
     filters.innerHTML =
       `<button type="button" class="chip" id="list-open" aria-haspopup="dialog" title="Ver todos os envolvidos"><svg viewBox="0 0 24 24" style="width:16px;height:16px;color:var(--ink-2)" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>Lista <span class="n">${nodes.length}</span></button>` +
-      groups.map(g => `<button type="button" class="chip" data-group="${esc(g.name)}" aria-pressed="true" style="--c:${gColor(g.idx)}" title="Clique para ocultar ou mostrar · clique duplo para isolar">
+      groups.map(g => `<button type="button" class="chip" data-group="${esc(g.name)}" aria-pressed="true" style="--c:${gColor(g.idx)}" title="Clique para filtrar por este grupo (some com outros) · clique duplo para isolar só este">
         <span class="dot"></span>${esc(g.name)} <span class="n">${counts.get(g.name)}</span></button>`).join("") +
       `<button type="button" class="reset" id="reset" hidden>Mostrar tudo</button>`;
     $("#status").innerHTML = ["doc", "alleg"].map(st => `<button type="button" class="chip" data-status="${st}" aria-pressed="true" title="Mostrar ou ocultar este tipo de ligação">${lineSample(st)}${STATUS[st].name} <span class="n">${sc[st]}</span></button>`).join("");
@@ -932,17 +932,17 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     filters.querySelectorAll("[data-group]").forEach(b => {
       b.onmouseenter = b.onfocus = () => { state.hoverGroup = b.dataset.group; applyView(); };
       b.onmouseleave = b.onblur = () => { state.hoverGroup = null; applyView(); };
-      b.onclick = (e) => { if (e.detail > 1) return; toggle(state.hiddenGroups, b.dataset.group); };
-      b.ondblclick = () => { state.hiddenGroups = new Set(groups.map(g => g.name).filter(n => n !== b.dataset.group)); syncFilters(); };
+      b.onclick = (e) => { if (e.detail > 1) return; toggle(state.selectedGroups, b.dataset.group); };
+      b.ondblclick = () => { state.selectedGroups = new Set([b.dataset.group]); syncFilters(); };
     });
     document.querySelectorAll("[data-status]").forEach(b => b.onclick = () => toggle(state.hiddenStatus, b.dataset.status));
-    $("#reset").onclick = () => { state.hiddenGroups.clear(); state.hiddenStatus.clear(); syncFilters(); };
+    $("#reset").onclick = () => { state.selectedGroups.clear(); state.hiddenStatus.clear(); syncFilters(); };
   }
   function toggle(set, key) { set.has(key) ? set.delete(key) : set.add(key); syncFilters(); }
   function syncFilters() {
-    filters.querySelectorAll("[data-group]").forEach(b => b.setAttribute("aria-pressed", String(!state.hiddenGroups.has(b.dataset.group))));
+    filters.querySelectorAll("[data-group]").forEach(b => b.setAttribute("aria-pressed", String(state.selectedGroups.size === 0 || state.selectedGroups.has(b.dataset.group))));
     document.querySelectorAll("[data-status]").forEach(b => b.setAttribute("aria-pressed", String(!state.hiddenStatus.has(b.dataset.status))));
-    $("#reset").hidden = !(state.hiddenGroups.size || state.hiddenStatus.size);
+    $("#reset").hidden = !(state.selectedGroups.size || state.hiddenStatus.size);
     if (state.selected && !nodeVisible(byId.get(state.selected))) clearSelection();
     applyView();
   }
@@ -961,7 +961,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     listBody.querySelectorAll("button").forEach(b => b.onclick = () => {
       const n = byId.get(b.dataset.id);
       listDlg.close();
-      if (!nodeVisible(n)) { state.hiddenGroups.delete(n.group); syncFilters(); }
+      if (!nodeVisible(n)) { state.selectedGroups.add(n.group); syncFilters(); }
       select(n.id); setTimeout(() => centerOn(n), 60);
     });
   }
