@@ -12,50 +12,44 @@ Este mapa é uma estrutura viva — cresce conforme surgem novas informações, 
 
 ## Onde ficam os dados
 
-Os dados do mapa (pessoas, empresas, conexões) estão embutidos em `index.html`, dentro de uma tag:
+**A fonte de verdade é a planilha `data/mapa.xlsx`.** Não edite o JSON dentro de `index.html` diretamente para mudar conteúdo (pessoa, conexão, perfil) — na próxima atualização a partir da planilha, qualquer edição manual ali é sobrescrita.
 
-```html
-<script id="graph-data" type="application/json">
-  { "groups": [...], "nodes": [...], "links": [...], "notes": {...} }
-</script>
+A planilha tem estas abas:
+
+| Aba | Para quê |
+|---|---|
+| **Nodes** | Lista de pessoas/empresas/casos/instituições (`Id`, `Label`, `Type`, `Group`, `Description`). `Degree` é só referência visual na planilha — quem calcula de verdade é o script, a partir da aba Edges. |
+| **Edges** | As conexões (`Source`, `Target`, `Label`, `Status` — "Documentado" ou "Alegado ou contestado"). `Source name`/`Target name` são fórmulas, não mexa. |
+| **Perfis** | O painel detalhado de quem tem perfil pesquisado: bio, situação jurídica, onde atua, milícia, ressalvas, fontes, datas — e as 3 últimas colunas (`Foto (arquivo)`, `Crédito da foto`, `Link da fonte da foto`) controlam a foto que aparece no perfil. |
+| **Notes** | Só documentação da planilha — não é lida pelo script (as notas do rodapé do site ficam direto no `index.html`, mudam raramente). |
+
+Formato da coluna **Fontes** na aba Perfis: `Título da fonte URL` — várias fontes separadas por ` | `. Exemplo:
+
+```
+CNN Brasil 12/09/2025 https://www.cnnbrasil.com.br/... | Metrópoles https://www.metropoles.com/...
 ```
 
-É só esse bloco JSON que precisa ser editado — o resto do arquivo é a aplicação (visualização, estilos, lógica) e normalmente não muda.
+### Como atualizar o site a partir da planilha
 
-### Adicionar uma pessoa, empresa ou caso (`nodes`)
+1. Edite `data/mapa.xlsx` (adicionar pessoa → aba Nodes; conexão → aba Edges; detalhar perfil → aba Perfis).
+2. Rode o script de build:
+   ```bash
+   python3 scripts/build.py
+   ```
+   Ele regenera o bloco JSON dentro de `index.html` e avisa quais nós foram adicionados/removidos.
+3. Teste localmente (veja abaixo) antes de subir.
+4. Commit de `data/mapa.xlsx` **e** `index.html` juntos, push — o deploy na Vercel é automático.
 
-```json
-{
-  "id": "slug_unico",
-  "label": "Nome exibido",
-  "type": "Pessoa",
-  "group": "Nome de um dos grupos já existentes",
-  "desc": "Descrição curta e factual, com a fonte implícita ou citada",
-  "degree": 1
-}
-```
+Se preferir não mexer na planilha você mesma, é só me mandar o arquivo `.xlsx` atualizado (ou me dizer o que mudar) que eu rodo o resto.
 
-- `type`: um de `Pessoa`, `Empresa`, `Casa ou ativo`, `Instituição ou caso`.
-- `group`: precisa bater com um dos nomes em `"groups"` no topo do JSON (ou você pode propor um grupo novo lá).
-- `degree`: número de conexões do nó — depois de adicionar os `links`, ajuste esse número (é o que define o tamanho do círculo no mapa).
+### Adicionando foto de alguém
 
-### Adicionar uma conexão (`links`)
-
-```json
-{
-  "source": "id_do_no_1",
-  "target": "id_do_no_2",
-  "label": "Como essa conexão é descrita",
-  "status": "doc"
-}
-```
-
-`source`/`target` precisam ser `id`s que já existem em `nodes`.
+Preencha as 3 colunas no fim da aba Perfis para a pessoa: nome do arquivo (ex. `fulano.jpg`, que precisa existir em `photos/`), o crédito (ex. "Agência Senado · uso livre") e o link da fonte. Prefira sempre Wikimedia Commons ou fotos oficiais de domínio público/licença aberta — veja `photos/CREDITS.md` para o padrão já usado.
 
 ## Como propor
 
-- **Pull request**: edite o JSON em `index.html`, abra PR descrevendo a fonte da informação nova.
-- **Issue**: se não quiser editar o código, abra uma issue descrevendo a pessoa/conexão e a fonte — alguém (ou eu) incorpora.
+- **Pull request**: edite `data/mapa.xlsx`, rode `scripts/build.py`, abra PR descrevendo a fonte da informação nova.
+- **Issue**: se não quiser mexer na planilha, abra uma issue descrevendo a pessoa/conexão e a fonte — alguém (ou eu) incorpora.
 
 ## Rodando localmente para testar
 
