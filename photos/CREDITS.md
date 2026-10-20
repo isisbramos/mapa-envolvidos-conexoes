@@ -30,9 +30,7 @@ Sem foto de licença livre encontrada: Fabrício Queiroz, Alexandre Caetano dos 
 
 ## Locais, instituições e empresas
 
-Mesmas regras de licença do bloco de pessoas acima. Para instituições e empresas com sede física identificável e foto real disponível sob licença livre, usamos a foto real do prédio/agência. Para bens privados específicos (a mansão, o jato, o triplex etc.) e empresas de fachada sem imagem pública, usamos uma foto **ilustrativa** de licença livre — nunca o imóvel/objeto real — e isso fica declarado tanto no cartão do site quanto aqui.
-
-### Fotos reais da entidade específica
+Mesmas regras de licença do bloco de pessoas acima. Só entra foto aqui quando é a foto/logo real daquela entidade específica, sob licença livre verificada — nada de imagem genérica/ilustrativa fingindo ser o imóvel ou objeto real. As que não têm imagem real disponível ficam sem foto (mesmo critério de "Pessoas sem foto" acima).
 
 | Arquivo | Local/entidade | Licença | Fonte |
 |---|---|---|---|
@@ -44,20 +42,10 @@ Mesmas regras de licença do bloco de pessoas acima. Para instituições e empre
 | receita.jpg | Receita Federal | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ag%C3%AAncia_da_Receita_Federal_de_Campo_Maior,_Piau%C3%AD,_Brasil.JPG) — agência real do órgão; não achamos a sede de Brasília sob licença livre |
 | santander.jpg | Santander | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Agencia_Banco_Santander_de_Telemaco_Borba.jpg) — agência real do banco; não achamos a sede sob licença livre |
 | cpi.jpg | CPI da pandemia (Covaxin) | CC BY 2.0 (Agência Senado) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:CPIPANDEMIA_-_Comiss%C3%A3o_Parlamentar_de_Inqu%C3%A9rito_da_Pandemia_(1).jpg) — sessão real da própria CPI |
+| bets.png | Blaze e sites de apostas | Domínio público — logo simples, sem autoria elegível a direitos autorais | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Blaze_apostas_logo.png) — fonte original: blaze.com |
 
-### Fotos ilustrativas (não retratam o local/objeto real — ver nota em cada cartão do site)
+Todas redimensionadas a no máximo 480px (lado maior).
 
-| Arquivo | Local/entidade | O que a imagem mostra | Licença | Fonte |
-|---|---|---|---|---|
-| angra.jpg | Mansão em Angra dos Reis | Piscina genérica vista de cima | CC0 (Tim Gouw) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Drone_pool_and_deck_chairs_(Unsplash).jpg) |
-| aptosp.jpg | Apartamento de luxo em SP | Prédio de apartamento genérico | CC0 (Grant Lemons) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Modern_apartment_building_(Unsplash).jpg) |
-| triplex.jpg | Triplex de Vorcaro | Prédio de apartamento genérico (mesma foto do item acima) | CC0 (Grant Lemons) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Modern_apartment_building_(Unsplash).jpg) |
-| jato.jpg | Jato (3 cotistas) | Jato executivo genérico | CC BY-SA 4.0 (Checkerberry) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Flexjet_Embraer_EMB-545_Praetor_500_(N446FX)_Landing_Runway_22_at_KLEX.jpg) |
-| atibaia.jpg | Casa de Wassef em Atibaia | Casa de campo genérica | CC0 (Ritchie Valens) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Cozy_Cottage_Home_(Unsplash).jpg) |
-| bravo.jpg | Bravo Grafeno (fábrica de capacetes) | Linha de produção genérica | CC0 (Samuel Zeller) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Assembly_Line_(Unsplash).jpg) |
-| bets.jpg | Blaze e sites de apostas | Mesa de cassino genérica | CC BY-SA 4.0 (Maximo Betman) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mesa-de-ruleta-casino-ciudad-de-mexico25-04-2023.jpg) |
-| master.jpg | Banco Master | Agência bancária genérica (banco não identificado, EUA) | CC0 (Anthony Esau) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Farm_Credit_Bank_Building_2016_(Unsplash).jpg) |
-| coaf.jpg | Caso rachadinha / COAF | Balança da justiça (símbolo) | CC BY 2.0 (frankieleon) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Scales_of_Justice_(3285348799).jpg) |
-| assoc.jpg, sala.jpg, escw.jpg, escf.jpg, ong.jpg, wt.jpg, alcazar.jpg, primeu.jpg, luri.jpg | Associações de aposentados; Sala em Águas Claras; Escritório de Willer; Escritório de advocacia de Flávio; ONG e produtora do filme; WT (e outras 13 empresas); Alcazar Holdings; Prime U; Luri Eventos | Distrito de escritórios genérico (sem sede/logo público identificável para nenhuma dessas) | CC0 (Riku Lu) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Office_district_(Unsplash).jpg) |
+### Sem foto
 
-Todas as fotos desta seção também foram redimensionadas a no máximo 480px.
+Sem imagem real de licença livre encontrada: Associações de aposentados, Sala em Águas Claras, Escritório de Willer, Escritório de advocacia de Flávio, ONG e produtora do filme, WT (e outras 13 empresas), Alcazar Holdings, Prime U, Luri Eventos, Banco Master, Mansão em Angra dos Reis, Apartamento de luxo em SP, Triplex de Vorcaro, Jato (3 cotistas), Casa de Wassef em Atibaia, Bravo Grafeno, Caso rachadinha/COAF. São bens privados, empresas de fachada ou casos sem prédio/logo público identificável — preferimos deixar sem foto a usar uma imagem genérica tentando passar por real.
