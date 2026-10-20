@@ -587,9 +587,9 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
 
   const root = document.documentElement;
   const sheetOver = () => (isMobile() && document.body.classList.contains("has-selection")) ? (parseFloat(root.style.getPropertyValue("--sheet-over")) || 0) : 0;
-  function fit(animate) {
+  function fit(animate, ignoreSheet) {
     const { w, h: hFull } = size(); if (!w || !hFull) return;
-    const h = Math.max(160, hFull - sheetOver());
+    const h = ignoreSheet ? hFull : Math.max(160, hFull - sheetOver());
     const vis = nodes.filter(nodeVisible); if (!vis.length) return;
     let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
     vis.forEach(n => { const r = rad(n); x0 = Math.min(x0, n.x - r - 50); x1 = Math.max(x1, n.x + r + 50); y0 = Math.min(y0, n.y - r - 14); y1 = Math.max(y1, n.y + r + 44); });
@@ -958,7 +958,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     $("#reset").hidden = !(state.selectedGroups.size || state.hiddenStatus.size);
     if (state.selected && !nodeVisible(byId.get(state.selected))) clearSelection();
     applyView();
-    fit(true);
+    fit(true, true);
   }
 
   /* ---------- list of everyone (index of the map) ---------- */
