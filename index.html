@@ -136,7 +136,6 @@ body.is-focusing .rlabel { opacity: .35; }
 .node { cursor: pointer; transition: opacity .15s; }
 .node .shape { stroke: var(--bg); stroke-width: 1.5; stroke-linejoin: round; transition: stroke .15s, stroke-width .15s; }
 .lgw { pointer-events: none; transition: opacity .15s; }
-#legend { display: none !important; }
 .lgw.is-dim { opacity: .14; }
 .lgw.is-hidden { display: none; }
 .lgw .label {
@@ -457,14 +456,13 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     adj.get(l.source.id).push({ edge: l, other: l.target, dir: "out" });
     adj.get(l.target.id).push({ edge: l, other: l.source, dir: "in" });
   });
-  const rad = d => 4 + 2.2 * Math.sqrt(d.deg);
+  const rad = d => 5.5 + 2.2 * Math.sqrt(d.deg);
   const gColor = gi => `var(--g${gi})`;
   const NARROW = matchMedia("(max-width: 860px)").matches;
   nodes.forEach(n => { const mx = NARROW ? (n.deg >= 8 ? 18 : 14) : (n.deg >= 8 ? 24 : 17); n.lines = wrapLabel(n.label, mx); n.cw = n.deg >= 8 ? 7 : 6.1; n.maxLen = Math.max(...n.lines.map(l => l.length)); });
 
   /* ---------- shapes (type -> glyph) ---------- */
   function shapePath(type, r) {
-    return `M${r},0A${r},${r} 0 1,1 ${-r},0A${r},${r} 0 1,1 ${r},0Z`;   // Obsidian-like: every node is a dot
     switch (type) {
       case "Empresa": { const s = r * 0.88; return `M${-s},${-s}H${s}V${s}H${-s}Z`; }
       case "Casa ou ativo": { const s = r * 1.32; return `M0,${-s}L${s},0L0,${s}L${-s},0Z`; }
@@ -949,7 +947,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
       </div>
       <h3>Como ler</h3>
       <ul class="how">
-        <li>${glyph("Pessoa")}<span>Cada cor é um grupo do caso; quanto maior o ponto, mais ligações</span></li>
+        <li>${glyph("Pessoa")}<span>Cor = grupo do caso; forma = tipo de envolvido; tamanho = número de ligações</span></li>
         <li>${lineSample("doc")}<span>Linha sólida: ligação documentada</span></li>
         <li>${lineSample("alleg")}<span>Tracejada: alegada ou contestada</span></li>
         <li>${glyph("Empresa")}<span>Quanto maior o nó, mais conexões</span></li>
@@ -1158,7 +1156,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   $("#about-body").innerHTML =
     `<p><b>${nodes.length} envolvidos · ${links.length} conexões</b> (${doc} documentadas, ${links.length - doc} alegadas ou contestadas)</p>` +
     `<ul class="how" style="margin:0 0 14px">
-       <li>${glyph("Pessoa")}<span>Cada cor é um grupo do caso; quanto maior o ponto, mais ligações. Aproxime para ver mais nomes. Toque num nome e use “Ver só a rede” para isolar as ligações dele.</span></li>
+       <li>${glyph("Pessoa")}<span>Cor = grupo do caso. Forma = tipo: círculo pessoa, quadrado empresa, losango casa ou ativo, hexágono instituição ou caso. Tamanho = número de ligações. Aproxime para ver mais nomes; toque num nome e use “Ver só a rede” para isolar as ligações dele.</span></li>
        <li>${lineSample("doc")}<span>Linha sólida: ligação documentada</span></li>
        <li>${lineSample("alleg")}<span>Tracejada: alegada ou contestada</span></li>
        <li>${glyph("Empresa")}<span>Quanto maior o nó, mais conexões</span></li></ul>` +
