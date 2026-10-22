@@ -112,13 +112,13 @@ main { display: grid; grid-template-columns: minmax(0, 1fr) 348px; min-height: 0
 #graph:active { cursor: grabbing; }
 
 /* edges */
-.edge { fill: none; stroke: var(--edge); stroke-width: 1.3; stroke-linecap: round; opacity: .34; transition: opacity .15s; }
-.edge.alleg { stroke-dasharray: 5 4; opacity: .42; }
-.edge.cross { opacity: .12; }
-.edge.alleg.cross { opacity: .16; }
+.edge { fill: none; stroke: var(--edge); stroke-width: .9; stroke-linecap: round; opacity: .3; transition: opacity .2s, stroke-width .2s; }
+.edge.alleg { stroke-dasharray: 4 4; opacity: .36; }
+.edge.cross { opacity: .16; }
+.edge.alleg.cross { opacity: .2; }
 .edge-hit { fill: none; stroke: transparent; stroke-width: 14; cursor: pointer; }
 .edge.is-dim, .edge.cross.is-dim { opacity: .04; }
-.edge.is-focus, .edge.is-hot, .edge.cross.is-focus, .edge.cross.is-hot { stroke: var(--edge-strong); stroke-width: 2.2; opacity: 1; }
+.edge.is-focus, .edge.is-hot, .edge.cross.is-focus, .edge.cross.is-hot { stroke: var(--edge-strong); stroke-width: 1.6; opacity: .9; }
 .edge.is-hidden, .node.is-hidden, .edge-hit.is-hidden { display: none; }
 
 /* regions: one soft blob per group, with the group name on top */
@@ -130,23 +130,31 @@ main { display: grid; grid-template-columns: minmax(0, 1fr) 348px; min-height: 0
 body.is-focusing .region { opacity: .035; }
 body.is-focusing .rlabel { opacity: .35; }
 .region.is-hidden, .rlabel.is-hidden { display: none; }
+.region, .rlabel { display: none; }
 
 /* nodes */
 .node { cursor: pointer; transition: opacity .15s; }
-.node .shape { stroke: var(--bg); stroke-width: 2; stroke-linejoin: round; transition: stroke .15s; }
+.node .shape { stroke: var(--bg); stroke-width: 1.5; stroke-linejoin: round; transition: stroke .15s, stroke-width .15s; }
 .lgw { pointer-events: none; transition: opacity .15s; }
+#legend { display: none !important; }
 .lgw.is-dim { opacity: .14; }
 .lgw.is-hidden { display: none; }
 .lgw .label {
-  font: 500 11.5px/1.2 var(--sans); fill: var(--ink); text-anchor: middle;
+  font: 500 11px/1.2 var(--sans); fill: var(--ink-2); text-anchor: middle;
   paint-order: stroke; stroke: var(--bg); stroke-width: 3.5px; stroke-linejoin: round; pointer-events: none;
 }
-.lgw .label.hub { font-weight: 600; font-size: 13px; }
+.lgw .label.hub { font-weight: 600; font-size: 12.5px; fill: var(--ink); }
+body.is-local .lgw .label { fill: var(--ink); }
 .node.is-dim { opacity: .14; }
-.node.is-match .shape, .node.is-selected .shape { stroke: var(--ink); stroke-width: 3; }
+.node.is-match .shape, .node.is-selected .shape { stroke: var(--focus); stroke-width: 4; stroke-opacity: .55; }
 .node:focus { outline: none; }
 .node:focus-visible .shape { stroke: var(--focus); stroke-width: 3.5; }
-.node:hover .shape { stroke: var(--ink); stroke-width: 3; }
+.node:hover .shape { stroke: var(--focus); stroke-width: 4; stroke-opacity: .45; }
+
+.local-btn { margin: 10px 0 2px; height: 40px; border-radius: 20px; padding: 0 16px; border: 1px solid var(--line);
+  background: var(--panel); color: var(--ink); font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+.local-btn:hover { border-color: var(--ink-3); }
+.local-btn svg { width: 16px; height: 16px; }
 
 /* tooltip */
 #tip {
@@ -449,13 +457,14 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     adj.get(l.source.id).push({ edge: l, other: l.target, dir: "out" });
     adj.get(l.target.id).push({ edge: l, other: l.source, dir: "in" });
   });
-  const rad = d => 6 + 2.5 * Math.sqrt(d.deg);
+  const rad = d => 4 + 2.2 * Math.sqrt(d.deg);
   const gColor = gi => `var(--g${gi})`;
   const NARROW = matchMedia("(max-width: 860px)").matches;
   nodes.forEach(n => { const mx = NARROW ? (n.deg >= 8 ? 18 : 14) : (n.deg >= 8 ? 24 : 17); n.lines = wrapLabel(n.label, mx); n.cw = n.deg >= 8 ? 7 : 6.1; n.maxLen = Math.max(...n.lines.map(l => l.length)); });
 
   /* ---------- shapes (type -> glyph) ---------- */
   function shapePath(type, r) {
+    return `M${r},0A${r},${r} 0 1,1 ${-r},0A${r},${r} 0 1,1 ${r},0Z`;   // Obsidian-like: every node is a dot
     switch (type) {
       case "Empresa": { const s = r * 0.88; return `M${-s},${-s}H${s}V${s}H${-s}Z`; }
       case "Casa ou ativo": { const s = r * 1.32; return `M0,${-s}L${s},0L0,${s}L${-s},0Z`; }
@@ -472,8 +481,8 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   const glyph = (type, color) => `<svg viewBox="-12 -12 24 24" aria-hidden="true"><path d="${shapePath(type, 7)}" fill="${color || "currentColor"}"/></svg>`;
 
   /* ---------- state ---------- */
-  const state = { hover: null, selected: null, hoverEdge: null, hotEdge: null, hoverGroup: null, query: "", selectedGroups: new Set(), hiddenStatus: new Set() };
-  const nodeVisible = n => state.selectedGroups.size === 0 || state.selectedGroups.has(n.group);
+  const state = { local: null, hover: null, selected: null, hoverEdge: null, hotEdge: null, hoverGroup: null, query: "", selectedGroups: new Set(), hiddenStatus: new Set() };
+  const nodeVisible = n => (state.selectedGroups.size === 0 || state.selectedGroups.has(n.group)) && (!state.local || state.local.has(n.id));
   const edgeVisible = e => !state.hiddenStatus.has(e.status) && nodeVisible(e.source) && nodeVisible(e.target);
 
   /* ---------- svg scaffold ---------- */
@@ -664,9 +673,51 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
 
   /* ---------- drag ---------- */
   nodeSel.call(d3.drag()
-    .on("start", (e, d) => { if (!e.active) sim.alphaTarget(0.25).restart(); d.fx = d.x; d.fy = d.y; hideTip(); })
-    .on("drag", (e, d) => { d.fx = e.x; d.fy = e.y; })
-    .on("end", (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = d.fy = null; }));
+    .on("start", (e, d) => { hideTip(); if (state.local) return; if (!e.active) sim.alphaTarget(0.25).restart(); d.fx = d.x; d.fy = d.y; })
+    .on("drag", (e, d) => { if (state.local) { d.x = e.x; d.y = e.y; render(); return; } d.fx = e.x; d.fy = e.y; })
+    .on("end", (e, d) => { if (state.local) return; if (!e.active) sim.alphaTarget(0); d.fx = d.fy = null; }));
+
+  /* ---------- local graph (Obsidian-style): the node and its neighbours, on rings ---------- */
+  let basePos = null, morph = null;
+  function animateTo(targets, done) {
+    if (morph) morph.stop();
+    sim.stop();
+    const from = new Map(nodes.map(n => [n.id, [n.x, n.y]]));
+    if (reduceMotion) { targets.forEach((p, id) => { const n = byId.get(id); n.x = p[0]; n.y = p[1]; }); render(); done && done(); return; }
+    morph = d3.timer(el => {
+      const t = Math.min(1, el / 650), e = d3.easeCubicInOut(t);
+      targets.forEach((p, id) => { const n = byId.get(id), f = from.get(id); n.x = f[0] + (p[0] - f[0]) * e; n.y = f[1] + (p[1] - f[1]) * e; });
+      render();
+      if (t >= 1) { morph.stop(); morph = null; done && done(); }
+    });
+  }
+  function enterLocal(id) {
+    if (!basePos) basePos = new Map(nodes.map(n => [n.id, [n.x, n.y]]));
+    const c = byId.get(id), nb = [...new Map(adj.get(id).map(a => [a.other.id, a.other])).values()];
+    nb.sort((a, b) => (ringPos.get(a.group) - ringPos.get(b.group)) || (b.deg - a.deg));
+    const ids = new Set([id, ...nb.map(n => n.id)]);
+    // nodes that were hidden start from their place in the full map
+    nodes.forEach(n => { if (ids.has(n.id) && !(state.local && state.local.has(n.id))) { const b = basePos.get(n.id); n.x = b[0]; n.y = b[1]; } });
+    const cx = basePos.get(id)[0], cy = basePos.get(id)[1], m = nb.length, two = m > 28;
+    // one ring while it fits; very connected nodes get two staggered rings
+    const r1 = two ? Math.max(260, m * 7) : Math.max(150, m * 14), r2 = r1 + 120;
+    const targets = new Map([[id, [cx, cy]]]);
+    c.lpos = "b";
+    nb.forEach((n, i) => {
+      const a = -Math.PI / 2 + i / m * 2 * Math.PI, r = two && i % 2 ? r2 : r1, ca = Math.cos(a), sa = Math.sin(a);
+      targets.set(n.id, [cx + ca * r, cy + sa * r * 0.8]);
+      n.lpos = ca > 0.38 ? "r" : ca < -0.38 ? "l" : sa < 0 ? "t" : "b";   // names point away from the centre
+    });
+    state.local = ids; document.body.classList.add("is-local");
+    applyView();
+    animateTo(targets, () => fit(true));
+  }
+  function exitLocal() {
+    if (!state.local) return;
+    const back = basePos; state.local = null; basePos = null; document.body.classList.remove("is-local");
+    applyView();
+    animateTo(back, () => { fit(true); if (state.selected) centerOn(byId.get(state.selected)); });
+  }
 
   /* ---------- labels: constant on-screen size + declutter ---------- */
   // Labels keep a minimum size in screen pixels (so they stay legible when the graph is scaled down on a phone),
@@ -685,8 +736,8 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     const vis = nodes.filter(nodeVisible);
     const glyphs = vis.map(n => { const e = ext(n) * k, x = t.applyX(n.x), y = t.applyY(n.y); return { id: n.id, x0: x - e, x1: x + e, y0: y - e, y1: y + e }; });
     // the most connected nodes (10+ links) are always labelled in the overview, even in dense areas
-    const must = n => forced.has(n.id) || (!focusIds && n.deg >= 10);
-    const minDeg = focusIds ? 0 : (k >= fitK * 1.8 ? 0 : k >= fitK * 1.3 ? 3 : 5);
+    const must = n => forced.has(n.id) || !!state.local || (!focusIds && n.deg >= 10);
+    const minDeg = focusIds ? 0 : (k >= fitK * 2.2 ? 0 : k >= fitK * 1.6 ? 3 : k >= fitK * 1.2 ? 5 : 8);
     const cand = vis.filter(n => (!focusIds || focusIds.has(n.id) || forced.has(n.id)) && (forced.has(n.id) || n.deg >= minDeg))
       .sort((a, b) => (must(b) - must(a)) || (b.deg - a.deg));
     // on-screen controls are obstacles too, so labels never end up underneath them
@@ -823,9 +874,11 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     try { history.replaceState(null, "", "#" + id); } catch (_) {}
     nodeSel.filter(d => d.id === id).raise();
     renderPanel(); applyView();
+    if (state.local || isMobile()) { enterLocal(id); renderPanel(); }
     if (focusPanel && !isMobile()) panel.querySelector("h2")?.setAttribute("tabindex", "-1"), panel.querySelector("h2")?.focus({ preventScroll: true });
   }
   function clearSelection() {
+    exitLocal();
     state.selected = null; state.hotEdge = null;
     document.body.classList.remove("has-selection");
     root.style.setProperty("--sheet-over", "0px");
@@ -891,7 +944,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
       </div>
       <h3>Como ler</h3>
       <ul class="how">
-        <li>${glyph("Pessoa")}<span>Cada área colorida é um grupo do caso; a forma indica o tipo de envolvido</span></li>
+        <li>${glyph("Pessoa")}<span>Cada cor é um grupo do caso; quanto maior o ponto, mais ligações</span></li>
         <li>${lineSample("doc")}<span>Linha sólida: ligação documentada</span></li>
         <li>${lineSample("alleg")}<span>Tracejada: alegada ou contestada</span></li>
         <li>${glyph("Empresa")}<span>Quanto maior o nó, mais conexões</span></li>
@@ -926,6 +979,9 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
           <span class="m"><span class="dot"></span>${esc(n.group)}</span>
           ${stageTag(n)}
         </div>
+        <button type="button" class="local-btn" aria-pressed="${state.local ? "true" : "false"}">${state.local
+          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>Voltar ao mapa completo`
+          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/></svg>Ver só a rede de ${esc(n.type === "Pessoa" ? n.label.split(" ")[0] : n.label)}`}</button>
         <button type="button" class="peek-hint">${n.deg} ${n.deg === 1 ? "conexão" : "conexões"} · toque ou puxe para ver ↑</button>
         <p class="desc">${esc(n.desc)}</p>
         <div class="detail">
@@ -936,6 +992,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
         </div>
       </div>`;
     panel.querySelector(".close").onclick = clearSelection;
+    panel.querySelector(".local-btn").onclick = () => { if (state.local) exitLocal(); else enterLocal(n.id); renderPanel(); };
     wireSheet();
     panel.querySelectorAll(".conn").forEach(b => {
       b.onclick = () => { const o = byId.get(b.dataset.id); select(o.id); centerOn(o); };
@@ -1096,7 +1153,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   $("#about-body").innerHTML =
     `<p><b>${nodes.length} envolvidos · ${links.length} conexões</b> (${doc} documentadas, ${links.length - doc} alegadas ou contestadas)</p>` +
     `<ul class="how" style="margin:0 0 14px">
-       <li>${glyph("Pessoa")}<span>Cada área colorida é um grupo do caso. Forma = tipo: círculo pessoa, quadrado empresa, losango casa ou ativo, hexágono instituição ou caso. Linhas entre grupos ficam mais claras; passe o mouse ou toque num nome para destacar as dele.</span></li>
+       <li>${glyph("Pessoa")}<span>Cada cor é um grupo do caso; quanto maior o ponto, mais ligações. Aproxime para ver mais nomes. Toque num nome e use “Ver só a rede” para isolar as ligações dele.</span></li>
        <li>${lineSample("doc")}<span>Linha sólida: ligação documentada</span></li>
        <li>${lineSample("alleg")}<span>Tracejada: alegada ou contestada</span></li>
        <li>${glyph("Empresa")}<span>Quanto maior o nó, mais conexões</span></li></ul>` +
@@ -1123,6 +1180,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   placeStatus(); mq.addEventListener("change", placeStatus);
   layout(); render();
   fit(false);
+  if (!reduceMotion) { nodes.forEach(n => { n.vx = (Math.random() - .5) * 6; n.vy = (Math.random() - .5) * 6; }); sim.alpha(0.18).alphaDecay(0.035).restart(); }
   renderPanel(); applyView();
   const fromHash = decodeURIComponent(location.hash.slice(1));
   if (byId.has(fromHash)) { select(fromHash); centerOn(byId.get(fromHash)); }
