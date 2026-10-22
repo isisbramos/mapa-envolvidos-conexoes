@@ -336,6 +336,8 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   * { transition: none !important; }
 }
 </style>
+<!-- Analytics: Umami Cloud (cookieless, sem dados pessoais). Só conta no domínio de produção. -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="UMAMI_WEBSITE_ID" data-domains="comquemandaflaviobolsonaro.space,www.comquemandaflaviobolsonaro.space" data-do-not-track="true"></script>
 </head>
 <body>
 
@@ -426,6 +428,8 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     return { ...n, deg: n.degree, gi: groupIdx.get(n.group), prof,
       hay: norm(n.label + " " + n.desc + (prof ? " " + prof.bio + " " + prof.legal + " " + prof.stage : "")) };
   });
+  /* analytics: falha silenciosa se o Umami não carregar (adblock etc.) */
+  const track = (name, data) => { try { window.umami && window.umami.track(name, data); } catch (_) {} };
   const byId = new Map(nodes.map(n => [n.id, n]));
   const links = DATA.edges.map((e, i) => ({ i, source: byId.get(e.source), target: byId.get(e.target), label: e.label, status: e.status }));
   // edges between the same pair (either direction) are fanned out as curves so none hides another
@@ -759,6 +763,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   /* ---------- selection + panel ---------- */
   const panel = $("#panel");
   function select(id, focusPanel) {
+    if (state.selected !== id) { const n = byId.get(id); track("node_select", { id, label: n ? n.label : id, group: n ? n.group : "" }); }
     state.selected = id; state.hotEdge = null;
     const wasOpen = document.body.classList.contains("has-selection");
     document.body.classList.add("has-selection");
@@ -948,10 +953,10 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     filters.querySelectorAll("[data-group]").forEach(b => {
       b.onmouseenter = b.onfocus = () => { state.hoverGroup = b.dataset.group; applyView(); };
       b.onmouseleave = b.onblur = () => { state.hoverGroup = null; applyView(); };
-      b.onclick = (e) => { if (e.detail > 1) return; toggle(state.selectedGroups, b.dataset.group); };
+      b.onclick = (e) => { if (e.detail > 1) return; track("group_filter", { group: b.dataset.group }); toggle(state.selectedGroups, b.dataset.group); };
       b.ondblclick = () => { state.selectedGroups = new Set([b.dataset.group]); syncFilters(); };
     });
-    document.querySelectorAll("[data-status]").forEach(b => b.onclick = () => toggle(state.hiddenStatus, b.dataset.status));
+    document.querySelectorAll("[data-status]").forEach(b => b.onclick = () => { track("status_filter", { status: b.dataset.status }); toggle(state.hiddenStatus, b.dataset.status); });
     $("#reset").onclick = () => { state.selectedGroups.clear(); state.hiddenStatus.clear(); if (state.selected) clearSelection(); syncFilters(); };
   }
   function toggle(set, key) { set.has(key) ? set.delete(key) : set.add(key); syncFilters(); }
@@ -997,7 +1002,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
       sec.hidden = !any;
     });
   }
-  const openList = (stage) => { listQ.value = ""; listStage = typeof stage === "string" ? stage : ""; buildStageChips(); filterList(); listDlg.showModal(); listBody.scrollTop = 0; };
+  const openList = (stage) => { listQ.value = ""; listStage = typeof stage === "string" ? stage : ""; buildStageChips(); filterList(); track("list_open", { stage: listStage || "all" }); listDlg.showModal(); listBody.scrollTop = 0; };
   buildList();
   listQ.addEventListener("input", filterList);
   $("#list-close").onclick = () => listDlg.close();
@@ -1006,7 +1011,8 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
 
   /* ---------- search ---------- */
   const q = $("#q");
-  q.addEventListener("input", () => { state.query = q.value; applyView(); });
+  let searched = false;
+  q.addEventListener("input", () => { state.query = q.value; applyView(); if (!searched && q.value.trim().length >= 3) { searched = true; track("search_used"); } });
   q.addEventListener("keydown", e => {
     if (e.key === "Enter") {
       const m = nodes.filter(n => nodeVisible(n) && n.hay.includes(norm(q.value.trim()))).sort((a, b) => b.deg - a.deg)[0];
@@ -1045,8 +1051,8 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
        <li>${glyph("Empresa")}<span>Quanto maior o nó, mais conexões</span></li></ul>` +
     DATA.notes.about.map(t => `<p>${esc(t)}</p>`).join("");
   const dlg = $("#about");
-  $("#about-open").onclick = () => dlg.showModal();
-  $("#about-btn").onclick = () => dlg.showModal();
+  $("#about-open").onclick = () => { track("about_open"); dlg.showModal(); };
+  $("#about-btn").onclick = () => { track("about_open"); dlg.showModal(); };
   $("#about-close").onclick = () => dlg.close();
   dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
 
