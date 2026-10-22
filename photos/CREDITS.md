@@ -40,12 +40,13 @@ Mesmas regras de licença do bloco de pessoas acima. Só entra foto aqui quando 
 | pgr.jpg | Procuradoria-Geral (PGR) | CC BY-SA 4.0 (Webysther) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Webysther_20180212174501_-_PGR_-_Procuradoria_Geral_da_Rep%C3%BAblica.jpg) |
 | abin.jpg | Abin | CC BY 3.0 BR (Antonio Cruz/Agência Brasil) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pr%C3%A9dio_da_Abin.jpg) |
 | receita.jpg | Receita Federal | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ag%C3%AAncia_da_Receita_Federal_de_Campo_Maior,_Piau%C3%AD,_Brasil.JPG) — agência real do órgão; não achamos a sede de Brasília sob licença livre |
-| santander.jpg | Santander | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Agencia_Banco_Santander_de_Telemaco_Borba.jpg) — agência real do banco; não achamos a sede sob licença livre |
+| santander.png | Santander | Domínio público (Interbrand) — logo simples, sem direito autoral | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Banco_Santander_Logotipo.svg) |
 | cpi.jpg | CPI da pandemia (Covaxin) | CC BY 2.0 (Agência Senado) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:CPIPANDEMIA_-_Comiss%C3%A3o_Parlamentar_de_Inqu%C3%A9rito_da_Pandemia_(1).jpg) — sessão real da própria CPI |
 | bets.png | Blaze e sites de apostas | Domínio público — logo simples, sem autoria elegível a direitos autorais | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Blaze_apostas_logo.png) — fonte original: blaze.com |
+| master.png | Banco Master | Domínio público (Banco Master) — logo simples, sem direito autoral | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Logotipo_do_Banco_Master.svg) |
 
 Todas redimensionadas a no máximo 480px (lado maior).
 
 ### Sem foto
 
-Sem imagem real de licença livre encontrada: Associações de aposentados, Sala em Águas Claras, Escritório de Willer, Escritório de advocacia de Flávio, ONG e produtora do filme, WT (e outras 13 empresas), Alcazar Holdings, Prime U, Luri Eventos, Banco Master, Mansão em Angra dos Reis, Apartamento de luxo em SP, Triplex de Vorcaro, Jato (3 cotistas), Casa de Wassef em Atibaia, Bravo Grafeno, Caso rachadinha/COAF. São bens privados, empresas de fachada ou casos sem prédio/logo público identificável — preferimos deixar sem foto a usar uma imagem genérica tentando passar por real.
+Sem imagem real de licença livre encontrada: Associações de aposentados, Sala em Águas Claras, Escritório de Willer, Escritório de advocacia de Flávio, ONG e produtora do filme, WT (e outras 13 empresas), Alcazar Holdings, Prime U, Luri Eventos, Mansão em Angra dos Reis, Apartamento de luxo em SP, Triplex de Vorcaro, Jato (3 cotistas), Casa de Wassef em Atibaia, Bravo Grafeno, Caso rachadinha/COAF. São bens privados, empresas de fachada ou casos sem prédio/logo público identificável — preferimos deixar sem foto a usar uma imagem genérica tentando passar por real.

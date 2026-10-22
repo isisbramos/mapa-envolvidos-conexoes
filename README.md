@@ -12,6 +12,8 @@ Este não é um retrato fechado — é uma **estrutura viva**, atualizada contin
 
 Este mapa nasceu a partir do vídeo **"República dos Laranjas"**, do canal **Revelando**, com **Fábio Porchat**, e é complementado por reportagens e transcrições citadas ao longo do projeto.
 
+Também incorpora, com as fontes de cada item, o acervo **"a verdade."** ([bolsomaster.site](https://bolsomaster.site)) e reportagens de piauí, Folha, O Globo, Estadão, UOL, Metrópoles, Poder360 e outros veículos. Cada perfil traz as fontes, a data da última checagem e o que mudou em cada revisão (aba `Perfis` da planilha); o histórico de importações e o que ficou de fora estão na aba `Notes`.
+
 - **Documentado**: o vídeo/reportagem apresenta como fato ou relatório da PF/imprensa.
 - **Alegado ou contestado**: hipótese, suspeita ou algo que o citado nega.
 
