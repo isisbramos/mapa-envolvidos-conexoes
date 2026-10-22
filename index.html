@@ -122,15 +122,15 @@ main { display: grid; grid-template-columns: minmax(0, 1fr) 348px; min-height: 0
 .edge.is-hidden, .node.is-hidden, .edge-hit.is-hidden { display: none; }
 
 /* regions: one soft blob per group, with the group name on top */
-.region { stroke-linejoin: round; stroke-linecap: round; opacity: .085; transition: opacity .2s; pointer-events: none; }
+.region { stroke-linejoin: round; stroke-linecap: round; opacity: .26; filter: url(#soft); transition: opacity .3s; pointer-events: none; }
 .rlabel { pointer-events: none; transition: opacity .2s; }
-.rlabel text { font: 600 11px/1 var(--sans); letter-spacing: .07em; text-transform: uppercase; fill: var(--ink-2);
+.rlabel text { font: 500 12px/1 var(--sans); letter-spacing: 0; fill: var(--ink-3);
   paint-order: stroke; stroke: var(--bg); stroke-width: 4px; stroke-linejoin: round; }
-.rlabel circle { stroke: var(--bg); stroke-width: 1.5px; }
-body.is-focusing .region { opacity: .035; }
+.rlabel circle { display: none; }
+body.is-focusing .region { opacity: .07; }
+body.is-local .region, body.is-local .rlabel { opacity: 0; }
 body.is-focusing .rlabel { opacity: .35; }
 .region.is-hidden, .rlabel.is-hidden { display: none; }
-.region, .rlabel { display: none; }
 
 /* nodes */
 .node { cursor: pointer; transition: opacity .15s; }
@@ -488,6 +488,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   /* ---------- svg scaffold ---------- */
   const svg = d3.select("#graph");
   const gRoot = svg.append("g");
+  svg.append("defs").html('<filter id="soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="24"/></filter>');
   const gRegions = gRoot.append("g").attr("class", "regions");
   const gEdges = gRoot.append("g");
   const gHits = gRoot.append("g");
@@ -543,15 +544,17 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   /* ---------- simulation ---------- */
   // groups sit on a ring, clockwise from the left. The order keeps every pair of neighbouring colours
   // distinguishable (checked for colour-blind vision) and puts related cases side by side.
-  const RING = ["Esquema do INSS", "Willer Tomaz e sua rede", "Flávio e família", "Vorcaro e o Banco Master",
+  const FOCUS = "flavio", CENTER_GROUP = "Flávio e família";   // the map is about him: he sits in the middle
+  const RING = ["Esquema do INSS", "Willer Tomaz e sua rede", "Vorcaro e o Banco Master",
     "Justiça e investigação", "Política e governo", "Casas e ativos"];
-  const ringOrder = [...RING.filter(g => groupIdx.has(g)), ...groups.map(g => g.name).filter(g => !RING.includes(g))];
+  const ringOrder = [...RING.filter(g => groupIdx.has(g)), ...groups.map(g => g.name).filter(g => !RING.includes(g) && g !== CENTER_GROUP)];
   const ringPos = new Map(ringOrder.map((g, i) => [g, i]));
   const stage = $("#stage");
   const size = () => ({ w: stage.clientWidth, h: stage.clientHeight });
   const portrait = () => { const { w, h } = size(); return h > w * 1.05; };
   let rectScale = 1;
   function anchor(d) {
+    if (d.group === CENTER_GROUP) return { x: 0, y: 0 };
     const { w, h } = size(), P = portrait(), n = ringOrder.length;
     const ang = Math.PI + (ringPos.get(d.group) ?? 0) * 2 * Math.PI / n;
     return P ? { x: Math.cos(ang) * w * 0.30, y: Math.sin(ang) * h * 0.38 } : { x: Math.cos(ang) * w * 0.36, y: Math.sin(ang) * h * 0.38 };
@@ -594,6 +597,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     sim.force("rect").initialize(nodes);
     const rnd = mulberry(7);
     nodes.forEach(n => { const a = anchor(n); n.x = a.x + (rnd() - .5) * 80; n.y = a.y + (rnd() - .5) * 80; n.vx = n.vy = 0; n.fx = n.fy = null; });
+    const F = byId.get(FOCUS); if (F) { F.x = F.fx = 0; F.y = F.fy = 0; }
     sim.force("x").initialize(nodes); sim.force("y").initialize(nodes);
     sim.alpha(1);
     for (let i = 0; i < 420; i++) sim.tick();
@@ -608,16 +612,17 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     updateRegions();
     scheduleLabels();
   }
+  const blob = d3.line().curve(d3.curveCatmullRomClosed.alpha(0.5));
   function updateRegions() {
     const k = d3.zoomTransform(svg.node()).k || 1;
     groups.forEach(g => {
       const pts = nodes.filter(n => n.group === g.name && nodeVisible(n)).map(n => [n.x, n.y]);
       g.empty = !pts.length; if (g.empty) return;
       const hull = pts.length >= 3 ? d3.polygonHull(pts) : pts;
-      g.d = "M" + hull.map(q => q[0].toFixed(1) + "," + q[1].toFixed(1)).join("L") + "Z";
+      g.d = hull.length >= 3 ? blob(hull) : "M" + hull.map(q => q[0].toFixed(1) + "," + q[1].toFixed(1)).join("L") + "Z";
       g.cx = d3.mean(pts, q => q[0]); g.top = d3.min(pts, q => q[1]);
     });
-    regionSel.classed("is-hidden", g => g.empty).attr("d", g => g.d || null).style("stroke-width", 64);
+    regionSel.classed("is-hidden", g => g.empty).attr("d", g => g.d || null).style("stroke-width", 90);
     const t = d3.zoomTransform(svg.node()), { w: W } = size();
     rlabelSel.classed("is-hidden", g => g.empty).select("text").attr("text-anchor", "middle").attr("x", 0);
     rlabelSel.each(function (g) {
@@ -675,7 +680,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   nodeSel.call(d3.drag()
     .on("start", (e, d) => { hideTip(); if (state.local) return; if (!e.active) sim.alphaTarget(0.25).restart(); d.fx = d.x; d.fy = d.y; })
     .on("drag", (e, d) => { if (state.local) { d.x = e.x; d.y = e.y; render(); return; } d.fx = e.x; d.fy = e.y; })
-    .on("end", (e, d) => { if (state.local) return; if (!e.active) sim.alphaTarget(0); d.fx = d.fy = null; }));
+    .on("end", (e, d) => { if (state.local) return; if (!e.active) sim.alphaTarget(0); d.fx = d.fy = d.id === FOCUS ? 0 : null; }));
 
   /* ---------- local graph (Obsidian-style): the node and its neighbours, on rings ---------- */
   let basePos = null, morph = null;
@@ -694,7 +699,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   function enterLocal(id) {
     if (!basePos) basePos = new Map(nodes.map(n => [n.id, [n.x, n.y]]));
     const c = byId.get(id), nb = [...new Map(adj.get(id).map(a => [a.other.id, a.other])).values()];
-    nb.sort((a, b) => (ringPos.get(a.group) - ringPos.get(b.group)) || (b.deg - a.deg));
+    nb.sort((a, b) => ((ringPos.get(a.group) ?? -1) - (ringPos.get(b.group) ?? -1)) || (b.deg - a.deg));
     const ids = new Set([id, ...nb.map(n => n.id)]);
     // nodes that were hidden start from their place in the full map
     nodes.forEach(n => { if (ids.has(n.id) && !(state.local && state.local.has(n.id))) { const b = basePos.get(n.id); n.x = b[0]; n.y = b[1]; } });
