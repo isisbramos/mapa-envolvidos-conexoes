@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 XLSX_PATH = ROOT / "data" / "mapa.xlsx"
 HTML_PATH = ROOT / "index.html"
 
-STATUS_MAP = {"Documentado": "doc", "Alegado ou contestado": "alleg"}
+STATUS_MAP = {"Reportado": "doc", "Documentado": "doc", "Alegado ou contestado": "alleg"}
 BLANK_VALUES = {"—", "-", "", None}
 MIL_BLANK_VALUES = BLANK_VALUES | {"Nada nas fontes."}
 
