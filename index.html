@@ -252,6 +252,8 @@ ul.conns { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 #panel .profile .cav { border-left: 3px solid var(--line); padding-left: 10px; }
 #panel .profile .src { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; font-size: 13px; }
 #panel .profile .src a { display: inline-flex; align-items: center; min-height: 36px; color: var(--focus); text-underline-offset: 2px; overflow-wrap: anywhere; }
+#panel .profile.pf-end { margin-top: 22px; padding-top: 4px; border-top: 1px solid var(--line); }
+#panel .profile.pf-end h4:first-child { margin-top: 14px; }
 #panel .profile .stamp { margin-top: 12px; color: var(--ink-3); font-size: 12px; }
 .stagebar { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
 .stagebar button { width: 100%; min-height: 40px; text-align: left; border: 0; background: transparent; border-radius: 8px; padding: 6px 8px; display: grid; grid-template-columns: 1fr 28px; gap: 3px 8px; align-items: center; font-size: 13.5px; }
@@ -839,6 +841,13 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
       ${row("Situação jurídica", p.legal)}
       ${row(n.type === "Pessoa" ? "Onde atua" : "Onde fica", p.loc)}
       ${row("Sobre milícia", p.mil)}
+    </section>`;
+  }
+  // Ressalvas + Fontes + data de checagem: ficam no fim do painel, depois das conexões
+  function profileFooter(n) {
+    const p = n.prof;
+    if (!p) return "";
+    return `<section class="profile pf-end" aria-label="Ressalvas e fontes">
       ${p.caveat ? `<h4>Ressalvas</h4><p class="cav">${esc(p.caveat)}</p>` : ""}
       ${p.src.length ? `<h4>Fontes</h4><ul class="src">${p.src.map(x => `<li><a href="${esc(x.u)}" target="_blank" rel="noopener noreferrer">${esc(x.t)}</a></li>`).join("")}</ul>` : ""}
       <p class="stamp">Checado em ${esc(p.date)}${p.chg ? " · Atualização: " + esc(p.chg) : ""}</p>
@@ -904,6 +913,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
           <h3>${n.deg} ${n.deg === 1 ? "conexão" : "conexões"}</h3>
           <div class="conn-sum"><span>${lineSample("doc")}${nDoc} documentadas</span><span>${lineSample("alleg")}${nAl} alegadas ou contestadas</span></div>
           <ul class="conns">${list.map(card).join("")}</ul>
+          ${profileFooter(n)}
           <p class="note">${esc(DATA.notes.disclaimer)}</p>
         </div>
       </div>`;
