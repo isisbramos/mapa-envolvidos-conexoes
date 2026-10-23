@@ -23,7 +23,7 @@
   --ink-2: #52514e;
   --ink-3: #6b6a65;
   --edge: #8f8e88;
-  --edge-strong: #0b0b0b;
+  --edge-strong: #4d4c48;
   --focus: #2a78d6;
   --g1: #2a78d6; --g2: #eb6834; --g3: #1baf7a; --g4: #eda100; --g5: #e87ba4; --g6: #008300;
   --shadow: 0 6px 24px rgba(11,11,11,.12);
@@ -112,11 +112,11 @@ main { display: grid; grid-template-columns: minmax(0, 1fr) 348px; min-height: 0
 #graph:active { cursor: grabbing; }
 
 /* edges */
-.edge { fill: none; stroke: var(--edge); stroke-width: 1.4; stroke-linecap: round; opacity: .6; transition: opacity .15s; }
+.edge { fill: none; stroke: var(--edge); stroke-width: calc(var(--w, 1) * 1px); stroke-linecap: round; opacity: .6; transition: opacity .15s; }
 .edge.alleg { stroke-dasharray: 5 4; opacity: .75; }
 .edge-hit { fill: none; stroke: transparent; stroke-width: 14; cursor: pointer; }
 .edge.is-dim { opacity: .05; }
-.edge.is-focus, .edge.is-hot { stroke: var(--edge-strong); stroke-width: 2.2; opacity: 1; }
+.edge.is-focus, .edge.is-hot { stroke: var(--edge-strong); stroke-width: calc(var(--w, 1) * 1px + .6px); opacity: 1; }
 .edge.is-hidden, .node.is-hidden, .edge-hit.is-hidden { display: none; }
 
 /* nodes */
@@ -146,6 +146,10 @@ main { display: grid; grid-template-columns: minmax(0, 1fr) 348px; min-height: 0
 #tip .pair { font-weight: 600; }
 #tip .pair .arrow { color: var(--ink-3); font-weight: 400; margin: 0 4px; }
 #tip .lbl { margin-top: 3px; color: var(--ink); }
+#tip .cnt { margin-top: 2px; color: var(--ink-3); font-size: 12px; }
+#tip .it + .it { margin-top: 8px; padding-top: 7px; border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+#tip .more { margin-top: 7px; color: var(--ink-3); font-size: 12px; }
+#tip .lbl .arrow { color: var(--ink-3); margin-right: 5px; }
 #tip .st { margin-top: 5px; display: flex; align-items: center; gap: 6px; color: var(--ink-2); font-size: 12px; }
 #tip .st svg { width: 26px; height: 8px; }
 
@@ -190,7 +194,16 @@ ul.conns { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .conn .dir { color: var(--ink-3); font-size: 15px; line-height: 1.3; text-align: center; }
 .conn .nm { display: flex; align-items: center; gap: 6px; font-weight: 600; font-size: 14px; }
 .conn .nm .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
-.conn .lb { display: block; color: var(--ink-2); font-size: 13px; margin-top: 1px; }
+.conn .lb { display: flex; gap: 7px; align-items: flex-start; color: var(--ink-2); font-size: 13px; margin-top: 1px; }
+.conn .lb + .lb { margin-top: 6px; }
+.conn .lb .ls { flex: none; margin-top: 5px; color: var(--ink-2); }
+.conn .lb .ls svg { width: 22px; height: 8px; display: block; }
+.conn .lb .tx { flex: 1; min-width: 0; }
+.conn .lb .dir-i { color: var(--ink-3); }
+.conn .nm .cn { font-weight: 400; font-size: 12px; color: var(--ink-3); margin-left: 4px; }
+.conn-sum { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 4px 0 8px; font-size: 12.5px; color: var(--ink-2); }
+.conn-sum span { display: inline-flex; align-items: center; gap: 6px; }
+.conn-sum svg { width: 22px; height: 8px; }
 .only-m { display: none; }
 .lhint { position: absolute; left: 14px; bottom: calc(var(--sheet-over, 0px) + var(--legend-h, 0px) + 22px); z-index: 2; max-width: calc(100% - 92px);
   min-height: 40px; padding: 0 14px; display: inline-flex; align-items: center; border-radius: 999px; border: 1px solid var(--line); text-align: left;
@@ -432,10 +445,16 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   const track = (name, data) => { try { window.umami && window.umami.track(name, data); } catch (_) {} };
   const byId = new Map(nodes.map(n => [n.id, n]));
   const links = DATA.edges.map((e, i) => ({ i, source: byId.get(e.source), target: byId.get(e.target), label: e.label, status: e.status }));
-  // edges between the same pair (either direction) are fanned out as curves so none hides another
+  // one drawn line per pair of nodes (either direction): every connection stays in `links` (panel, counts),
+  // but the graph draws a single `bundle` per pair, thicker the more connections it carries
   const pairs = new Map();
   links.forEach(l => { const k = [l.source.id, l.target.id].sort().join("|"); (pairs.get(k) || pairs.set(k, []).get(k)).push(l); });
-  pairs.forEach(arr => arr.forEach((l, i) => { l.par = i - (arr.length - 1) / 2; }));
+  const bundles = [...pairs.values()].map((items, i) => {
+    const b = { i, source: items[0].source, target: items[0].target, items, vn: items.length, vdoc: true };
+    items.forEach(l => { l.b = b; });
+    return b;
+  });
+  const edgeW = n => Math.min(1.0 + 0.7 * (n - 1), 4.5);
   const adj = new Map(nodes.map(n => [n.id, []]));
   links.forEach(l => {
     adj.get(l.source.id).push({ edge: l, other: l.target, dir: "out" });
@@ -475,17 +494,9 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   const gHits = gRoot.append("g");
   const gNodes = gRoot.append("g");
 
-  const edgeSel = gEdges.selectAll("path").data(links).join("path")
-    .attr("class", d => "edge " + d.status);
-  const hitSel = gHits.selectAll("path").data(links).join("path").attr("class", "edge-hit");
-  function edgePath(d) {
-    const x1 = d.source.x, y1 = d.source.y, x2 = d.target.x, y2 = d.target.y;
-    if (!d.par) return `M${x1},${y1}L${x2},${y2}`;
-    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
-    // normal is taken against a canonical direction so parallel edges fan out the same way whichever way they point
-    const sgn = d.source.id < d.target.id ? 1 : -1, off = d.par * sgn * 70;
-    return `M${x1},${y1}Q${mx - dy / len * off},${my + dx / len * off} ${x2},${y2}`;
-  }
+  const edgeSel = gEdges.selectAll("path").data(bundles).join("path").attr("class", "edge");
+  const hitSel = gHits.selectAll("path").data(bundles).join("path").attr("class", "edge-hit");
+  function edgePath(d) { return `M${d.source.x},${d.source.y}L${d.target.x},${d.target.y}`; }
 
   function wrapLabel(s, max) {
     const words = s.split(" "), lines = []; let cur = "";
@@ -687,10 +698,13 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
 
   /* ---------- tooltip ---------- */
   const tip = $("#tip");
-  function showTip(l, ev) {
-    tip.innerHTML = `<div class="pair">${esc(l.source.label)}<span class="arrow">→</span>${esc(l.target.label)}</div>
-      <div class="lbl">${esc(l.label)}</div>
-      <div class="st">${lineSample(l.status)}${esc(STATUS[l.status].name)}</div>`;
+  function showTip(b, ev) {
+    const its = b.items.filter(edgeVisible), MAX = 4, one = its.length === 1;
+    const row = l => `<div class="it"><div class="lbl">${one ? "" : `<span class="arrow">${l.source === b.source ? "→" : "←"}</span>`}${esc(l.label)}</div>
+      <div class="st">${lineSample(l.status)}${esc(STATUS[l.status].name)}</div></div>`;
+    tip.innerHTML = `<div class="pair">${esc(one ? its[0].source.label : b.source.label)}<span class="arrow">${one ? "→" : "↔"}</span>${esc(one ? its[0].target.label : b.target.label)}</div>` +
+      (one ? "" : `<div class="cnt">${its.length} ligações</div>`) + its.slice(0, MAX).map(row).join("") +
+      (its.length > MAX ? `<div class="more">+ ${its.length - MAX} no painel do nó</div>` : "");
     const r = stage.getBoundingClientRect();
     let x = ev.clientX - r.left + 14, y = ev.clientY - r.top + 14;
     tip.classList.add("on");
@@ -708,15 +722,15 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
     const he = state.hotEdge ?? state.hoverEdge;
     let nbr = null, fe = null;
     if (he !== null) {
-      const l = links[he]; nbr = new Set([l.source.id, l.target.id]); fe = new Set([he]);
+      const l = bundles[he]; nbr = new Set([l.source.id, l.target.id]); fe = new Set([he]);
     } else if (state.hoverGroup) {
       nbr = new Set(nodes.filter(n => n.group === state.hoverGroup).map(n => n.id)); fe = new Set();
-      links.forEach(l => { if (nbr.has(l.source.id) && nbr.has(l.target.id) && edgeVisible(l)) fe.add(l.i); });
+      bundles.forEach(b => { if (nbr.has(b.source.id) && nbr.has(b.target.id) && b.items.some(edgeVisible)) fe.add(b.i); });
     } else {
       const f = state.hover || state.selected;
       if (f) {
         nbr = new Set([f]); fe = new Set();
-        adj.get(f).forEach(a => { if (edgeVisible(a.edge)) { nbr.add(a.other.id); fe.add(a.edge.i); } });
+        adj.get(f).forEach(a => { if (edgeVisible(a.edge)) { nbr.add(a.other.id); fe.add(a.edge.b.i); } });
       }
     }
     focusIds = nbr || matches || null;
@@ -727,11 +741,15 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
       .classed("is-match", d => !!matches && matches.has(d.id));
     lgw.classed("is-hidden", d => !nodeVisible(d))
       .classed("is-dim", d => nbr ? !nbr.has(d.id) : (matches ? !matches.has(d.id) : false));
-    edgeSel.classed("is-hidden", d => !edgeVisible(d))
+    bundles.forEach(b => { const v = b.items.filter(edgeVisible); b.vn = v.length; b.vdoc = v.some(l => l.status === "doc"); });
+    edgeSel.classed("is-hidden", d => d.vn === 0)
+      .classed("alleg", d => !d.vdoc)
+      .style("--w", d => edgeW(d.vn))
+      .style("stroke-dasharray", d => d.vdoc ? null : `${5 + edgeW(d.vn)} ${4 + edgeW(d.vn)}`)
       .classed("is-dim", d => fe ? !fe.has(d.i) : (matches ? !(matches.has(d.source.id) && matches.has(d.target.id)) : false))
       .classed("is-focus", d => !!fe && fe.has(d.i))
       .classed("is-hot", d => d.i === he);
-    hitSel.classed("is-hidden", d => !edgeVisible(d));
+    hitSel.classed("is-hidden", d => d.vn === 0);
     stage.dataset.matches = matches ? matches.size : "";
   }
 
@@ -842,6 +860,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
         <li>${glyph("Pessoa")}<span>Cor = grupo do caso; forma = tipo de envolvido</span></li>
         <li>${lineSample("doc")}<span>Linha sólida: ligação documentada</span></li>
         <li>${lineSample("alleg")}<span>Tracejada: alegada ou contestada</span></li>
+        <li><svg viewBox="0 0 26 8" aria-hidden="true"><line x1="1" y1="4" x2="25" y2="4" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg><span>Linha mais grossa: mais ligações entre as mesmas duas partes</span></li>
         <li>${glyph("Empresa")}<span>Quanto maior o nó, mais conexões</span></li>
       </ul>
       ${stageSection()}
@@ -855,15 +874,19 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
   }
 
   function renderNode(n) {
-    const list = adj.get(n.id).slice().sort((a, b) => b.other.deg - a.other.deg);
-    const sec = (st) => {
-      const items = list.filter(a => a.edge.status === st);
-      if (!items.length) return "";
-      return `<div class="conn-group-title">${lineSample(st)}${STATUS[st].name} <span class="n">${items.length}</span></div>
-        <ul class="conns">${items.map(a => `<li><button type="button" class="conn" data-id="${a.other.id}" data-edge="${a.edge.i}" style="--c:${gColor(a.other.gi)}">
-          <span class="dir" aria-hidden="true">${a.dir === "out" ? "→" : "←"}</span>
-          <span><span class="nm"><span class="dot"></span>${esc(a.other.label)}</span>
-          <span class="lb"><span class="sr">${a.dir === "out" ? "aponta para" : "vem de"}: </span>${esc(a.edge.label)}</span></span></button></li>`).join("")}</ul>`;
+    // one card per counterpart; every connection between the two is listed inside it
+    const groups = new Map();
+    adj.get(n.id).forEach(a => { (groups.get(a.other.id) || groups.set(a.other.id, { other: a.other, b: a.edge.b, items: [] }).get(a.other.id)).items.push(a); });
+    const list = [...groups.values()].sort((x, y) => y.other.deg - x.other.deg || x.other.label.localeCompare(y.other.label));
+    const nDoc = adj.get(n.id).filter(a => a.edge.status === "doc").length, nAl = n.deg - nDoc;
+    const card = g => {
+      const its = g.items.slice().sort((a, b) => (a.edge.status === "doc" ? 0 : 1) - (b.edge.status === "doc" ? 0 : 1)), multi = its.length > 1;
+      return `<li><button type="button" class="conn" data-id="${g.other.id}" data-edge="${g.b.i}" style="--c:${gColor(g.other.gi)}">
+        <span class="dir" aria-hidden="true">${multi ? "" : (its[0].dir === "out" ? "→" : "←")}</span>
+        <span><span class="nm"><span class="dot"></span>${esc(g.other.label)}${multi ? `<span class="cn">${its.length} ligações</span>` : ""}</span>
+        ${its.map(a => `<span class="lb"><span class="ls" aria-hidden="true">${lineSample(a.edge.status)}</span>
+          <span class="tx">${multi ? `<span class="dir-i" aria-hidden="true">${a.dir === "out" ? "→" : "←"}</span> ` : ""}<span class="sr">${esc(STATUS[a.edge.status].name)}; ${a.dir === "out" ? "aponta para" : "vem de"}: </span>${esc(a.edge.label)}</span></span>`).join("")}
+        </span></button></li>`;
     };
     panel.innerHTML = `<button class="icon-btn close" type="button" aria-label="Fechar detalhes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
       <div class="grab" role="button" tabindex="0" aria-label="Expandir ou recolher os detalhes"><i></i></div>
@@ -879,7 +902,8 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
         <div class="detail">
           ${profileBlock(n)}
           <h3>${n.deg} ${n.deg === 1 ? "conexão" : "conexões"}</h3>
-          ${sec("doc")}${sec("alleg")}
+          <div class="conn-sum"><span>${lineSample("doc")}${nDoc} documentadas</span><span>${lineSample("alleg")}${nAl} alegadas ou contestadas</span></div>
+          <ul class="conns">${list.map(card).join("")}</ul>
           <p class="note">${esc(DATA.notes.disclaimer)}</p>
         </div>
       </div>`;
@@ -1048,6 +1072,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
        <li>${glyph("Pessoa")}<span>Cor = grupo do caso. Forma = tipo: círculo pessoa, quadrado empresa, losango casa ou ativo, hexágono instituição ou caso.</span></li>
        <li>${lineSample("doc")}<span>Linha sólida: ligação documentada</span></li>
        <li>${lineSample("alleg")}<span>Tracejada: alegada ou contestada</span></li>
+        <li><svg viewBox="0 0 26 8" aria-hidden="true"><line x1="1" y1="4" x2="25" y2="4" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg><span>Linha mais grossa: mais ligações entre as mesmas duas partes</span></li>
        <li>${glyph("Empresa")}<span>Quanto maior o nó, mais conexões</span></li></ul>` +
     DATA.notes.about.map(t => `<p>${esc(t)}</p>`).join("");
   const dlg = $("#about");
@@ -1085,7 +1110,7 @@ dialog .actions { display: flex; justify-content: flex-end; margin-top: 14px; }
       if (isMobile() && state.selected) applySheetVars(SNAP()[sheet.state]);
     }, 120);
   }).observe(stage);
-  window.__graph = { nodes, links, state, select, applyView }; // handy for debugging in the console
+  window.__graph = { nodes, links, bundles, state, select, applyView }; // handy for debugging in the console
 })();
 </script>
 </body>
