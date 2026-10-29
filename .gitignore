@@ -3,6 +3,9 @@
 node_modules
 .env*
 
+# saída do validador no CI
+relatorio.txt
+
 # notas pessoais do vault isis-brain (não vão pro repo público)
 *.md
 !README.md

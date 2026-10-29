@@ -49,7 +49,14 @@ def conta_fontes(v):
 
 
 def linhas(ws):
-    return [r for r in ws.iter_rows(min_row=2, values_only=True) if r and r[0]]
+    """Linhas com dado, cada uma com o número real dela na planilha.
+
+    A aba Edges tem linhas em branco no meio, então contar só as preenchidas
+    daria um número deslocado — e mandar quem revisa para a linha errada é
+    pior do que não indicar linha nenhuma.
+    """
+    return [(i, r) for i, r in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2)
+            if r and r[0]]
 
 
 def main():
@@ -61,13 +68,13 @@ def main():
     edges = linhas(wb["Edges"])
     perfis = linhas(wb["Perfis"])
 
-    ids_nodes = {txt(r[0]) for r in nodes}
-    ids_perfis = {txt(r[0]) for r in perfis}
-    nomes = {txt(r[0]): txt(r[1]) for r in nodes}
+    ids_nodes = {txt(r[0]) for _, r in nodes}
+    ids_perfis = {txt(r[0]) for _, r in perfis}
+
 
     # ---------- V1: duas fontes por perfil (R6) ----------
     sem_fonte_ok = 0
-    for r in perfis:
+    for _, r in perfis:
         rid, estagio, fontes = txt(r[0]), txt(r[7]), r[10]
         n = conta_fontes(fontes)
         if estagio in ESTAGIOS_SEM_PESQUISA:
@@ -78,7 +85,7 @@ def main():
 
     # ---------- V2: foto precisa de crédito, link e arquivo (R2) ----------
     fotos_usadas = set()
-    for r in perfis:
+    for _, r in perfis:
         rid, arquivo, credito, link = txt(r[0]), txt(r[13]), txt(r[14]), txt(r[15])
         if not arquivo:
             continue
@@ -93,13 +100,13 @@ def main():
     # ---------- V3: status da ligação ----------
     # O build.py trata status desconhecido como "Reportado". Um erro de
     # digitação aqui promove uma alegação a fato: por isso é ERRO, não aviso.
-    for i, r in enumerate(edges, start=2):
+    for i, r in edges:
         st = txt(r[3])
         if st not in STATUS_VALIDOS:
             erro("V3", f"Edges linha {i}", f"status '{st}' não é um valor válido")
 
     # ---------- V4: ligação apontando para id inexistente ----------
-    for i, r in enumerate(edges, start=2):
+    for i, r in edges:
         for ponta, valor in (("Source", txt(r[0])), ("Target", txt(r[1]))):
             if valor not in ids_nodes:
                 erro("V4", f"Edges linha {i}", f"{ponta} '{valor}' não existe na aba Nodes")
@@ -111,10 +118,10 @@ def main():
         erro("V5", pid, "perfil sem nó correspondente na aba Nodes")
 
     # ---------- V6 e V7: fonte por ligação ----------
-    tem_coluna_fonte = len(edges[0]) > 6 if edges else False
+    tem_coluna_fonte = len(edges[0][1]) > 6 if edges else False
     sem_fonte = com_uma = 0
     if tem_coluna_fonte:
-        for i, r in enumerate(edges, start=2):
+        for i, r in edges:
             n = conta_fontes(r[6] if len(r) > 6 else None)
             if n == 0:
                 sem_fonte += 1
@@ -152,13 +159,13 @@ def main():
     print("COBERTURA")
     print("=" * 62)
     print(f"  Nós: {len(nodes)}   Ligações: {len(edges)}   Perfis: {len(perfis)}")
-    st = Counter(txt(r[3]) for r in edges)
+    st = Counter(txt(r[3]) for _, r in edges)
     for k, v in st.most_common():
         print(f"  Status '{k}': {v}")
-    com_foto = sum(1 for r in perfis if txt(r[13]))
+    com_foto = sum(1 for _, r in perfis if txt(r[13]))
     pct = 100 * com_foto / len(perfis) if perfis else 0
     print(f"  Perfis com foto: {com_foto}/{len(perfis)} ({pct:.0f}%)")
-    ok = sum(1 for r in perfis
+    ok = sum(1 for _, r in perfis
              if conta_fontes(r[10]) >= MIN_FONTES_PERFIL
              or txt(r[7]) in ESTAGIOS_SEM_PESQUISA)
     print(f"  Perfis dentro da regra de fontes: {ok}/{len(perfis)} "
