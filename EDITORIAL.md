@@ -20,6 +20,24 @@ com o código da regra (V1, V2, …) na mensagem de erro.
 | **F4** | Não citar como lida uma matéria que não foi possível abrir | humana |
 | **F5** | Identidade incerta fica de fora até confirmar. Mais vale faltar do que atribuir à pessoa errada | humana |
 | **F6** | Quando as fontes divergem sobre uma data, vale a mais antiga verificável | humana |
+| **F7** | **Ligação "Alegado ou contestado" precisa de 2 fontes registradas nela própria.** "Reportado" se apoia nas fontes do perfil das duas pontas | `V7` |
+
+### Por que F7 separa os dois status
+
+Uma alegação é o que mais machuca alguém se estiver errada, e são 72 — escopo
+administrável. Exigir duas fontes por ligação nas 213 derrubaria ligações
+corretas, só mal documentadas.
+
+O validador conta URLs distintas; ele **não sabe julgar independência**. Duas
+matérias que remetem à mesma apuração passam na contagem e falham na regra F3.
+Por isso a coluna `Nota da fonte` existe: é onde fica registrado quando duas
+fontes não são independentes — como em `mantega → vorcaro`, cujas duas
+coberturas remetem à mesma apuração de O Globo.
+
+Enquanto o preenchimento das ligações não termina, F7 sai como **aviso**. A
+constante `EXIGIR_FONTE_NA_LIGACAO`, no topo do `validate.py`, vira a regra em
+erro quando a cobertura chegar a 100% — a partir daí ela se defende sozinha no
+CI.
 
 ### Hierarquia de fontes
 
@@ -116,13 +134,8 @@ de fotos, então cinco das sete regras eram sobre imagem. Esta é a tradução:
 Pontos em que os documentos de plano divergem ou deixaram a pergunta em
 aberto. **Não foram resolvidos aqui.**
 
-1. **Duas fontes por ligação, ou só por perfil?** O plano de pendências
-   propôs exigir 2 fontes também por ligação "Alegado ou contestado", e a
-   decisão não ficou registrada. Hoje a regra F2 vale por perfil. A coluna
-   `Fontes` da aba Edges existe para tornar essa regra verificável quando a
-   decisão for tomada.
-2. **Foto sem licença livre:** deixar o nó sem foto, ou pedir autorização ao
+1. **Foto sem licença livre:** deixar o nó sem foto, ou pedir autorização ao
    fotógrafo?
-3. **Quais entidades são institucionais** (PF, STF, Receita e afins). A
+2. **Quais entidades são institucionais** (PF, STF, Receita e afins). A
    distinção passa a importar quando dois mapas forem exibidos juntos: um
    órgão em comum não é ponto de encontro entre duas redes.
