@@ -1,0 +1,57 @@
+name: Validação editorial
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instala dependências
+        run: pip install openpyxl
+
+      - name: Regras editoriais
+        id: validar
+        run: |
+          set -o pipefail
+          python3 scripts/validate.py | tee relatorio.txt
+
+      - name: Build a partir da planilha
+        run: python3 scripts/build.py
+
+      - name: Confere se o index.html está em sincronia com a planilha
+        run: |
+          if ! git diff --quiet -- index.html; then
+            echo "::error::O index.html não corresponde à planilha."
+            echo "Alguém editou data/mapa.xlsx e não rodou 'python3 scripts/build.py',"
+            echo "ou editou o index.html à mão. Diferença encontrada:"
+            git diff --stat -- index.html
+            exit 1
+          fi
+          echo "index.html em sincronia com data/mapa.xlsx."
+
+      - name: Publica a cobertura no PR
+        if: github.event_name == 'pull_request' && always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            echo "### Validação editorial"
+            echo
+            echo '```'
+            cat relatorio.txt
+            echo '```'
+          } > comentario.md
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file comentario.md
