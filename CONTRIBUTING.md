@@ -4,10 +4,12 @@ Este mapa é uma estrutura viva — cresce conforme surgem novas informações, 
 
 ## Antes de propor algo
 
+As regras completas estão em [`EDITORIAL.md`](EDITORIAL.md) — fontes, status, exposição de pessoas, imagens e local. O resumo:
+
 1. **Tenha uma fonte**: reportagem, transcrição de vídeo, decisão judicial, documento público. Sem fonte, não entra.
 2. **Classifique corretamente**:
-   - `"status": "doc"` → a fonte apresenta como fato, relatório da PF, decisão judicial ou similar.
-   - `"status": "alleg"` → é hipótese, suspeita, ou o citado nega.
+   - `"status": "doc"` ("Reportado" na planilha) → a fonte apresenta como fato, relatório da PF, decisão judicial ou similar.
+   - `"status": "alleg"` ("Alegado ou contestado") → é hipótese, suspeita, ou o citado nega.
 3. Se a pessoa/empresa citada nega a irregularidade, isso precisa continuar refletido no disclaimer e no tom da descrição (`desc`) — nunca apresente suspeita como condenação.
 
 ## Onde ficam os dados
@@ -19,7 +21,7 @@ A planilha tem estas abas:
 | Aba | Para quê |
 |---|---|
 | **Nodes** | Lista de pessoas/empresas/casos/instituições (`Id`, `Label`, `Type`, `Group`, `Description`). `Degree` é só referência visual na planilha — quem calcula de verdade é o script, a partir da aba Edges. As 4 últimas colunas (`Foto (arquivo)`, `Crédito da foto`, `Link da fonte da foto`, `Nota da foto`) são opcionais: dá pra colocar foto em alguém mesmo sem perfil completo na aba Perfis. Se a pessoa tiver perfil na aba Perfis **e** foto aqui, a foto da aba Perfis prevalece. |
-| **Edges** | As conexões (`Source`, `Target`, `Label`, `Status` — "Documentado" ou "Alegado ou contestado"). `Source name`/`Target name` são fórmulas, não mexa. |
+| **Edges** | As conexões (`Source`, `Target`, `Label`, `Status` — "Reportado" ou "Alegado ou contestado"). `Source name`/`Target name` são fórmulas, não mexa. `Fontes` e `Nota da fonte` (duas últimas colunas) registram de onde vem **aquela ligação**, no mesmo formato da coluna `Fontes` da aba Perfis; `Nota da fonte` é para ressalvas curtas, como "a segunda é republicação da primeira". |
 | **Perfis** | O painel detalhado de quem tem perfil pesquisado: bio, situação jurídica, onde atua, milícia, ressalvas, fontes, datas — e as 3 últimas colunas (`Foto (arquivo)`, `Crédito da foto`, `Link da fonte da foto`) controlam a foto que aparece no perfil. |
 | **Notes** | Só documentação da planilha — não é lida pelo script (as notas do rodapé do site ficam direto no `index.html`, mudam raramente). |
 
@@ -32,13 +34,18 @@ CNN Brasil 12/09/2025 https://www.cnnbrasil.com.br/... | Metrópoles https://www
 ### Como atualizar o site a partir da planilha
 
 1. Edite `data/mapa.xlsx` (adicionar pessoa → aba Nodes; conexão → aba Edges; detalhar perfil → aba Perfis).
-2. Rode o script de build:
+2. Confira as regras editoriais:
+   ```bash
+   python3 scripts/validate.py
+   ```
+   Ele imprime a cobertura (fontes, fotos, status) e lista erros e avisos. **Erro derruba**; aviso é a fila do que precisa de decisão humana.
+3. Rode o script de build:
    ```bash
    python3 scripts/build.py
    ```
    Ele regenera o bloco JSON dentro de `index.html` e avisa quais nós foram adicionados/removidos.
-3. Teste localmente (veja abaixo) antes de subir.
-4. Commit de `data/mapa.xlsx` **e** `index.html` juntos, push — o deploy na Vercel é automático.
+4. Teste localmente (veja abaixo) antes de subir.
+5. Commit de `data/mapa.xlsx` **e** `index.html` juntos, push — o deploy na Vercel é automático.
 
 Se preferir não mexer na planilha você mesma, é só me mandar o arquivo `.xlsx` atualizado (ou me dizer o que mudar) que eu rodo o resto.
 
