@@ -27,6 +27,16 @@ STATUS_VALIDOS = {"Reportado", "Alegado ou contestado"}
 ESTAGIOS_SEM_PESQUISA = {"Não pesquisado"}
 MIN_FONTES_PERFIL = 2
 
+# Regra F7 do EDITORIAL.md: ligação "Alegado ou contestado" precisa de duas
+# fontes registradas nela própria; "Reportado" se apoia nas fontes do perfil.
+STATUS_EXIGE_FONTE_PROPRIA = "Alegado ou contestado"
+MIN_FONTES_LIGACAO = 2
+
+# Enquanto o preenchimento das ligações não termina, a regra acima é aviso.
+# Vire para True quando toda ligação "Alegado ou contestado" tiver duas
+# fontes: a partir daí ela derruba o CI e a regra passa a se defender sozinha.
+EXIGIR_FONTE_NA_LIGACAO = False
+
 erros = []
 avisos = []
 
@@ -120,6 +130,8 @@ def main():
     # ---------- V6 e V7: fonte por ligação ----------
     tem_coluna_fonte = len(edges[0][1]) > 6 if edges else False
     sem_fonte = com_uma = 0
+    alegadas = alegadas_ok = 0
+    faltantes = []
     if tem_coluna_fonte:
         for i, r in edges:
             n = conta_fontes(r[6] if len(r) > 6 else None)
@@ -127,9 +139,27 @@ def main():
                 sem_fonte += 1
             elif n == 1:
                 com_uma += 1
-                if txt(r[3]) == "Alegado ou contestado":
-                    aviso("V7", f"Edges linha {i}",
-                          "ligação 'Alegado ou contestado' com fonte única")
+            if txt(r[3]) == STATUS_EXIGE_FONTE_PROPRIA:
+                alegadas += 1
+                if n >= MIN_FONTES_LIGACAO:
+                    alegadas_ok += 1
+                else:
+                    faltantes.append((i, n))
+        # Uma linha por ligação faltante inundaria o relatório enquanto o
+        # preenchimento não termina. Enquanto a regra é aviso, sai agregado;
+        # quando vira erro, cada uma precisa aparecer para ser corrigida.
+        if faltantes and EXIGIR_FONTE_NA_LIGACAO:
+            for i, n in faltantes:
+                erro("V7", f"Edges linha {i}",
+                     f"ligação '{STATUS_EXIGE_FONTE_PROPRIA}' com {n} fonte(s); "
+                     f"o mínimo é {MIN_FONTES_LIGACAO} (F7)")
+        elif faltantes:
+            amostra = ", ".join(str(i) for i, _ in faltantes[:8])
+            resto = f" e mais {len(faltantes) - 8}" if len(faltantes) > 8 else ""
+            aviso("V7", "Edges",
+                  f"{len(faltantes)} de {alegadas} ligações "
+                  f"'{STATUS_EXIGE_FONTE_PROPRIA}' abaixo de {MIN_FONTES_LIGACAO} fontes "
+                  f"(F7) — linhas {amostra}{resto}")
         if sem_fonte:
             aviso("V6", "Edges",
                   f"{sem_fonte} de {len(edges)} ligações sem fonte registrada")
@@ -179,6 +209,13 @@ def main():
               f"({100 * datadas / len(edges):.0f}%)")
         if com_uma:
             print(f"    ({com_uma} com uma fonte só)")
+        if alegadas:
+            print(f"  '{STATUS_EXIGE_FONTE_PROPRIA}' com {MIN_FONTES_LIGACAO}+ fontes "
+                  f"próprias (F7): {alegadas_ok}/{alegadas} "
+                  f"({100 * alegadas_ok / alegadas:.0f}%)")
+            if not EXIGIR_FONTE_NA_LIGACAO:
+                print("    (regra ainda em aviso; vire EXIGIR_FONTE_NA_LIGACAO "
+                      "quando chegar a 100%)")
 
     print()
     print("=" * 62)
