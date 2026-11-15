@@ -32,8 +32,8 @@ flowchart LR
 |---|---|---|---|---|
 | 1.1 | Claude | Clone do Mac em dia; `pull` só avança em linha reta (`pull.ff only`) e limpa branches apagadas | `git status -sb` sem `behind` | ✅ 15/11 |
 | 1.2 | Isis | Apagar as 4 branches antigas já contidas na `main` | `git ls-remote --heads` lista só `main` e `redesign-visual` | ✅ 15/11 |
-| 1.3 | Isis | **Backup das notas privadas.** Elas existem só na pasta do Mac (o `.gitignore` as mantém fora do GitHub). Escolha um: Time Machine, iCloud ou sync do Obsidian | A pasta do projeto está incluída **e** você restaurou 1 arquivo de teste | 🔸 |
-| 1.4 | Isis | **Proteger a `main` no GitHub:** *Settings → Branches → Add rule* em `main`: exigir pull request, exigir o check `validar` verde, incluir administradores. Se travar numa emergência, desligue, resolva e registre no `ops/runbook.md` | Um `git push` direto na `main` é recusado | 🔸 |
+| 1.3 | Isis | **Backup das notas privadas.** Elas existem só na pasta do Mac (o `.gitignore` as mantém fora do GitHub). Escolha um: Time Machine, iCloud ou sync do Obsidian | A pasta do projeto está incluída **e** você restaurou 1 arquivo de teste. Conferir também que `.env.local` (token da Vercel) não sobe para o serviço de backup | 🔸 Obsidian (`isis-brain`) informado em 15/11; falta o teste de restauração |
+| 1.4 | Isis | **Proteger a `main` no GitHub:** *Settings → Branches → Add rule* em `main`: exigir pull request, exigir o check `validar` verde, incluir administradores. Se travar numa emergência, desligue, resolva e registre no `ops/runbook.md` | Um `git push` direto na `main` é recusado | 🔸 Prompt para o Claude Code entregue em 15/11; o GitHub nega esta permissão à sessão na nuvem, então roda com a conta da dona |
 | 1.5 | Isis | Decisão 6: destino da `redesign-visual` (4 commits únicos, sobre a planilha antiga). *Recomendação:* criar a tag `arquivo/redesign-visual` no último commit e só depois apagar a branch | A tag existe e a decisão está em `context/decisoes/` | 🔸 |
 | 1.6 | Claude | Regra datada no router: `data/mapa.xlsx` e `index.html` só mudam por branch e PR, nunca direto na `main` do Mac | PR mergeado | ⬜ |
 
@@ -47,9 +47,9 @@ Ela decide; o Claude escreve o arquivo em `context/decisoes/` e atualiza a linha
 
 | ID | Quem | Decisão | Recomendação | Estado |
 |---|---|---|---|---|
-| 2.1 | Isis | Decisões 2, 3 e 4 do roadmap, que valem para a fila inteira do A2 (rebaixar, reescrever ou cortar; fonte de paywall; ritmo de um lote por PR) | Aprovar como estão escritas no roadmap | 🔸 |
+| 2.1 | Isis | Decisões 2, 3 e 4 do roadmap, que valem para a fila inteira do A2 (rebaixar, reescrever ou cortar; fonte de paywall; ritmo de um lote por PR) | Aprovar como estão escritas no roadmap | ✅ 15/11, [protocolo do A2](../context/decisoes/2026-11-15-protocolo-a2-rebaixar-reescrever-cortar.md) |
 | 2.2 | Isis | Decisão 11: quando migrar a B4 | Só entre dois lotes de A2, sem PR editorial aberto, JSON idêntico como critério de aceite. **Faz-se na sessão 2 do Bloco 3** | 🔸 |
-| 2.3 | Isis | `CODEOWNERS` (o plano original previa; nunca foi criado) | Não criar: com uma dona só e o passo 1.4, não acrescenta controle. Registrar a decisão | 🔸 |
+| 2.3 | Isis | `CODEOWNERS` (o plano original previa; nunca foi criado) | Não criar: com uma dona só e o passo 1.4, não acrescenta controle. Registrar a decisão | ✅ 15/11, [sem CODEOWNERS](../context/decisoes/2026-11-15-sem-codeowners.md) |
 
 As decisões 1, 5, 7, 8, 9 e 10 seguem no roadmap, cada uma no momento em que trava um item.
 
@@ -59,7 +59,7 @@ Prova que uma sessão nova, só com o `CLAUDE.md`, grava o que mudou no arquivo 
 
 | ID | Quem | Passo | Estado |
 |---|---|---|---|
-| 3.1 | Isis | **Sessão 1:** abrir uma sessão **nova** do Claude Code na pasta do Mac e dizer só "Vamos começar o lote 1 do A2". Trazer o diff ou o PR | ⬜ (depende do 2.1) |
+| 3.1 | Isis | **Sessão 1:** abrir uma sessão **nova** do Claude Code na pasta do Mac e dizer só "Vamos começar o lote 1 do A2". Trazer o diff ou o PR | ⬜ liberado (o 2.1 está ✅) |
 | 3.2 | Isis | **Sessão 2:** sessão nova para decidir a 11 (passo 2.2) | ⬜ |
 | 3.3 | Claude | Conferir cada sessão: leu o router antes; gravou no arquivo certo; "Estado em 1 minuto" mudou quando devia e sem hash; nada sensível no repo; resumiu em 1 linha | ⬜ |
 | 3.4 | Claude | Se algo falhou: PR que ajusta a redação do router; repetir só a sessão que falhou | ⬜ |
@@ -88,7 +88,7 @@ Prova que uma sessão nova, só com o `CLAUDE.md`, grava o que mudou no arquivo 
 
 ## Ordem sugerida
 
-1. Hoje: 1.3 e 1.4 (são suas e rápidos), 2.1 e 2.3.
+1. Hoje: 1.3 e 1.4 (são suas e rápidos). 2.1 e 2.3 já estão feitos.
 2. Em seguida: 3.1 (sessão 1 com o A2 lote 1) e 1.5.
 3. Quando quiser: 3.2 (decisão 11), e então 3.3 e 3.4.
 4. Depois: Bloco 4, e a primeira revisão do 4.3 até 15/12.
@@ -104,3 +104,4 @@ A migração B4 não está aqui: tem prompt próprio em `ops/migracao-corpus-uni
 | 2026-11-15 | Fase 1: router `CLAUDE.md` (PRs #10 e #11) e gate de leitura nas 3 portas |
 | 2026-11-15 | Fase 2: roadmap (#12), fila do F7 (#13), decisões (#14), `ops/` (#15), whitelist ancorada e runbook (#16); planos executados movidos para o vault |
 | 2026-11-15 | Passos 1.1 e 1.2 feitos; instruções do Projeto atualizadas pela dona |
+| 2026-11-15 | Plano publicado (#17). Passos 2.1 e 2.3 aprovados e registrados em `context/decisoes/`. Passo 1.3: Obsidian informado, teste de restauração pendente. Passo 1.4: prompt entregue |
