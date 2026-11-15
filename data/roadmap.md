@@ -73,7 +73,7 @@ C2 e C3 saem juntos, depois de C1. Nenhum dos dois se desfaz com um commit.
 | D1 a D5 | Hub multi-mapa · juntar mapas · pontos de encontro (instituições separadas das pontes reais) · linha do tempo · perfil cross-map |
 | E1 a E4 | Escolher o prefeito com critério declarado · teto de ~40 nós · produção · capacidade (segundo revisor ou 1 mapa por ciclo) |
 
-A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (ADR em `context/decisoes/` na Fase 2).
+A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (`context/decisoes/2026-10-22-linha-do-tempo-proposta.md`).
 
 ## Ordem recomendada
 
@@ -81,7 +81,7 @@ A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (ADR em `context/dec
 |---|---|
 | **Agora** | A2 em lotes |
 | **Lote rápido** | B1, B2 e B3 juntos |
-| **Em paralelo** | B4 (migração) |
+| **Entre dois lotes de A2** | B4 (migração), se a decisão 11 for aprovada; senão, depois de A2 |
 | **Depois de A2** | A3 → C1 → C2 e C3 |
 | **Depois de B4** | D1 → D2 → D3 |
 | **2027** | E |
@@ -100,6 +100,7 @@ A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (ADR em `context/dec
 | 8 | Qual prefeito é o mapa 2, com que critério; teto de nós; segundo revisor ou 1 mapa por ciclo | E |
 | 9 | Assinatura do site e momento de indexar | C |
 | 10 | Nome guarda-chuva da coleção | Antes de D1 e da indexação |
+| 11 | Quando migrar para corpus único (B4): em paralelo com A2, ou só depois? O plano de 28/10 diz "nunca migrar com PRs editoriais em voo" (mistura refactor e conteúdo no mesmo diff), e A2 são 6 a 8 PRs seguidos. A `data/fila-f7.md` também está chaveada por linha da aba `Edges`, que a migração muda. *Recomendação:* migrar só entre dois lotes, sem PR editorial aberto, com o JSON gerado idêntico ao anterior como critério de aceite e a fila re-chaveada por `id` no mesmo PR. Detalhe em `context/decisoes/2026-10-29-corpus-unico-mapas-como-selecao.md` | B4 |
 
 ## Riscos vivos
 
@@ -119,7 +120,7 @@ A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (ADR em `context/dec
 |---|---|
 | 0. Inventário | ✅ 15/11 |
 | 1. Router | ✅ `CLAUDE.md` no ar; gate nas 3 portas em ajuste |
-| 2. Migração | Em andamento, um PR por conteúdo: roadmap ✅ → fila do F7 ✅ → decisões → analytics e prompt de migração → planos executados |
+| 2. Migração | Em andamento, um PR por conteúdo: roadmap ✅ → fila do F7 ✅ → decisões ✅ → analytics e prompt de migração → planos executados |
 | 3. Write-back | Observar 2 sessões reais gravando sozinhas |
 | 4. Manutenção | `ops/manutencao.md` + tarefa mensal agendada |
 | 5. Legado | Arquivar cópias e trocar notas externas por links |

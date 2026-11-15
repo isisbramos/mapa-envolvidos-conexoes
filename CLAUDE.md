@@ -34,12 +34,14 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
 | Como contribuir | `CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md` | — |
 | Roadmap, ordem e decisões pendentes | `data/roadmap.md` | Contagens não moram lá: ficam aqui e no `validate.py` |
 | Fila do F7 (fontes nas ligações "Alegado") | `data/fila-f7.md` | Números de linha deslocam se a aba `Edges` mudar; reconferir |
+| Por que o projeto é como é (decisões datadas) | `context/README.md` → `context/decisoes/` | Uma decisão por arquivo; a substituída ganha status, não some |
 
 **Quando código e doc discordam, o código vence.**
 **Ignore:** `redesign-visual` (planilha antiga, não mergear); planos de 22–26/10 no Projeto claude.ai (históricos).
 
 ## Quando ler o quê
 - **O que fazer a seguir, decisões pendentes:** `data/roadmap.md`.
+- **Por que uma regra ou escolha existe, antes de propor mudá-la:** `context/README.md` (índice das decisões).
 - **Editar perfil, ligação ou status:** `EDITORIAL.md` → `CONTRIBUTING.md` → rodar `validate.py` e `build.py`.
 - **Fonte por ligação (F7/A2):** `data/fila-f7.md` + `EDITORIAL.md` §1 e §2.
 - **Foto ou logo:** `EDITORIAL.md` §4 → `photos/CREDITS.md`.
