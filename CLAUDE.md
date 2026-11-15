@@ -1,0 +1,71 @@
+# Mapa de Envolvidos e Conexões — router
+
+Leia este arquivo antes de qualquer outro. Não varra o repo: abra só o que o assunto pede.
+
+## O que é
+Site estático (grafo interativo) que organiza pessoas, empresas e casos citados em investigações
+jornalísticas, com status por ligação ("Reportado" ou "Alegado ou contestado") e fontes.
+Repo público `isisbramos/mapa-envolvidos-conexoes`, deploy na Vercel a cada push na `main`.
+Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`.
+- **Nomes:** título público neutro "Mapa de envolvidos e conexões"; o domínio mantém o nome. Nome guarda-chuva
+  da coleção está em aberto (decisão 11 do roadmap).
+- **Termo legado, não usar:** "Documentado" (hoje é "Reportado"). O `README.md` ainda usa; é para corrigir.
+
+## Estado em 1 minuto
+> last-reviewed: 2026-11-15 (repo conferido na `main` @ `88c9d7f`, 30/10; prioridades vêm do roadmap de 30/10)
+- Produção: `main` @ `88c9d7f` (PR #9, 30/10). Nenhum commit novo desde então.
+- Conteúdo: 95 nós · 213 ligações · 95 perfis · 141 "Reportado" · 72 "Alegado ou contestado" · fotos 40/95.
+- Validador: 0 erros, 3 avisos (V6, V7, V9); roda no CI junto com build e checagem de sincronia.
+- Regra F7 (2 fontes por ligação "Alegado"): 1 de 72 cumprida. Hoje é aviso; vira erro quando V7 = 0.
+- Abertura ao público: `noindex, nofollow` ligado; assinatura por pseudônimo. Os dois mudam juntos, só depois
+  do fim do F7/E6 e de leitura jurídica. Nenhum dos dois se desfaz com um commit.
+- Prioridade atual: A2, fontes nas 71 ligações "Alegado", em lotes (um lote = um PR).
+- Mapa 2 (prefeitos) e "juntar mapas" dependem da migração B4 (corpus único), ainda não feita.
+
+## Onde está a verdade
+| Assunto | Fonte da verdade | Atenção |
+| --- | --- | --- |
+| Nós, ligações, perfis | `data/mapa.xlsx` | O JSON dentro do `index.html` é gerado; nunca editar à mão |
+| Regras editoriais | `EDITORIAL.md` | Planos antigos citam R1–R7; tradução na §7 |
+| Regras verificáveis | `scripts/validate.py` | Códigos V1–V11 do prompt de migração NÃO batem com o código real |
+| Build | `scripts/build.py` | Preserva `notes`, `stages` e o `<head>` do `index.html` |
+| Fotos e licenças | `photos/CREDITS.md` | Foto só com licença livre verificável |
+| Como contribuir | `CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md` | — |
+| Roadmap e decisões pendentes | (interino) `visao-global` no Projeto claude.ai "Eleiçoes" | Cópia fora do repo; vira `data/roadmap.md` na Fase 2 |
+
+**Quando código e doc discordam, o código vence.**
+**Ignore:** `redesign-visual` (planilha antiga, não mergear); planos de 22–26/10 no Projeto claude.ai (históricos).
+
+## Quando ler o quê
+- **Editar perfil, ligação ou status:** `EDITORIAL.md` → `CONTRIBUTING.md` → rodar `validate.py` e `build.py`.
+- **Fonte por ligação (F7/A2):** plano F7 (interino, no Projeto) + `EDITORIAL.md` §1 e §2.
+- **Foto ou logo:** `EDITORIAL.md` §4 → `photos/CREDITS.md`.
+- **SEO, indexação, assinatura:** não mexer sem decisão da dona do projeto.
+- **Analytics (Umami):** `<head>` do `index.html`; eventos listados no doc de analytics (interino).
+- **Migração para corpus único:** prompt de migração (interino). Fases 6–9 dele já foram feitas nos PRs #6 e #7.
+
+## Regras de produção
+- Merge e publicação só com aprovação explícita da dona. Um lote = um PR = um review.
+- Todo PR traz a tabela "o que entrou / o que ficou de fora e por quê".
+- `data/mapa.xlsx` e `index.html` vão no mesmo commit; o CI barra quem esquecer o build.
+- Nunca citar como lida matéria que não foi aberta. Paywall: a dona cola o texto.
+- Pessoa não pública e menor: sem foto; local só em nível cidade/UF.
+- **Repo público:** não entra nota pessoal, e-mail, ID de planilha, estratégia jurídica, de funding ou do
+  pseudônimo. Isso mora no vault privado.
+- O `.gitignore` bloqueia todo `*.md` (as notas privadas moram na mesma pasta, no Mac). Só os `.md` da
+  whitelist vão ao GitHub; arquivo novo de contexto precisa entrar na whitelist no mesmo PR.
+
+## Write-back
+- Quando eu corrigir algo ou decidirmos algo, atualize o arquivo certo e diga em 1 linha o que mudou:
+  - mudou estado, contagem ou prioridade → "Estado em 1 minuto" deste arquivo
+  - decisão com alternativas → `context/decisoes/AAAA-MM-DD-<slug>.md` (criar junto com a 1ª decisão)
+  - correção editorial recorrente → `EDITORIAL.md` (editar a regra, não duplicar)
+  - algo quebrou e foi resolvido → `ops/runbook.md` (criar junto com o 1º caso)
+- Gravou num arquivo da área? Confira se o "Estado em 1 minuto" também mudou.
+- Regras novas entram com data: `- [AAAA-MM-DD] ...`. Antes de adicionar, procure uma parecida.
+- Write-back nunca muda conteúdo publicado: isso segue o fluxo de PR e aprovação.
+
+## Manutenção
+- No máximo 150 linhas. Se `last-reviewed` passar de 30 dias, avise no início da sessão.
+- Mensal: conferir este estado contra `validate.py` e a `main`; conferir as instructions do Projeto claude.ai
+  e a memória contra este arquivo; mostrar o diff antes de salvar.
