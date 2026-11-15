@@ -91,9 +91,9 @@ A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (`context/decisoes/2
 | # | Decisão | Trava |
 |---|---|---|
 | 1 | Ligação de apuração única (A5): manter, rebaixar ou cortar | A5 |
-| 2 | Ligação "Alegado" sem 2ª fonte independente: cortar, reescrever ou rebaixar. *Recomendação:* rebaixar quando couber (registro oficial), reescrever quando o texto for mais forte que a fonte, cortar quando não sobrar nada | A2 |
-| 3 | Fonte que só a dona consegue ler (paywall), registrada em `Nota da fonte` com "lida em DD/MM". *Recomendação:* aceitar | A2 |
-| 4 | Ritmo: um lote por PR com aprovação de cada um. *Recomendação:* sim, com revisão extra nos lotes mais sensíveis | A2 |
+| 2 | Ligação "Alegado" sem 2ª fonte independente: cortar, reescrever ou rebaixar. *Recomendação:* rebaixar quando couber (registro oficial), reescrever quando o texto for mais forte que a fonte, cortar quando não sobrar nada. **Aprovada 15/11:** `context/decisoes/2026-11-15-protocolo-a2-rebaixar-reescrever-cortar.md` | A2 |
+| 3 | Fonte que só a dona consegue ler (paywall), registrada em `Nota da fonte` com "lida em DD/MM". *Recomendação:* aceitar. **Aprovada 15/11** (mesmo arquivo da decisão 2) | A2 |
+| 4 | Ritmo: um lote por PR com aprovação de cada um. *Recomendação:* sim, com revisão extra nos lotes mais sensíveis. **Aprovada 15/11** (mesmo arquivo da decisão 2) | A2 |
 | 5 | Foto sem licença livre: deixar sem, ou pedir autorização | A6 |
 | 6 | Destino da branch `redesign-visual` (4 commits únicos, sobre planilha antiga) | Antes de B4 |
 | 7 | Quais entidades são institucionais | B5 |

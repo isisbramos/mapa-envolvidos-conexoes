@@ -18,3 +18,5 @@ apontando para a que a substituiu.
 | `decisoes/2026-10-29-regras-como-codigo-e-ci.md` | Validador, CI e `EDITORIAL.md` | Vigente |
 | `decisoes/2026-10-29-corpus-unico-mapas-como-selecao.md` | Entidades e ligações uma vez só; mapa é seleção | Desenho decidido, execução pendente |
 | `decisoes/2026-10-29-regra-f7.md` | 2 fontes por ligação "Alegado" | Vigente, em aviso |
+| `decisoes/2026-11-15-protocolo-a2-rebaixar-reescrever-cortar.md` | Como tratar ligação "Alegado" sem 2ª fonte, paywall e ritmo do A2 | Vigente |
+| `decisoes/2026-11-15-sem-codeowners.md` | Não criar `CODEOWNERS` | Vigente; reabrir com 2º revisor |
