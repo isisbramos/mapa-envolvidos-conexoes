@@ -33,7 +33,7 @@ flowchart LR
 | 1.1 | Claude | Clone do Mac em dia; `pull` só avança em linha reta (`pull.ff only`) e limpa branches apagadas | `git status -sb` sem `behind` | ✅ 15/11 |
 | 1.2 | Isis | Apagar as 4 branches antigas já contidas na `main` | `git ls-remote --heads` lista só `main` e `redesign-visual` | ✅ 15/11 |
 | 1.3 | Isis | **Backup das notas privadas.** Elas existem só na pasta do Mac (o `.gitignore` as mantém fora do GitHub). Escolha um: Time Machine, iCloud ou sync do Obsidian | A pasta do projeto está incluída **e** você restaurou 1 arquivo de teste. Conferir também que `.env.local` (token da Vercel) não sobe para o serviço de backup | 🔸 Obsidian (`isis-brain`) informado em 15/11; falta o teste de restauração |
-| 1.4 | Isis | **Proteger a `main` no GitHub:** *Settings → Branches → Add rule* em `main`: exigir pull request, exigir o check `validar` verde, incluir administradores. Se travar numa emergência, desligue, resolva e registre no `ops/runbook.md` | Um `git push` direto na `main` é recusado | 🔸 Prompt para o Claude Code entregue em 15/11; o GitHub nega esta permissão à sessão na nuvem, então roda com a conta da dona |
+| 1.4 | Isis | **Proteger a `main` no GitHub:** *Settings → Branches → Add rule* em `main`: exigir pull request, exigir o check `validar` verde, incluir administradores. Se travar numa emergência, desligue, resolva e registre no `ops/runbook.md` | Um `git push` direto na `main` é recusado | ✅ 15/11. Conferido pela API: `main` protegida, check `validar` exigido para todos (inclui administradores). Rodou com a conta da dona, porque o GitHub nega esta permissão à sessão na nuvem |
 | 1.5 | Isis | Decisão 6: destino da `redesign-visual` (4 commits únicos, sobre a planilha antiga). *Recomendação:* criar a tag `arquivo/redesign-visual` no último commit e só depois apagar a branch | A tag existe e a decisão está em `context/decisoes/` | 🔸 |
 | 1.6 | Claude | Regra datada no router: `data/mapa.xlsx` e `index.html` só mudam por branch e PR, nunca direto na `main` do Mac | PR mergeado | ⬜ |
 
@@ -105,3 +105,4 @@ A migração B4 não está aqui: tem prompt próprio em `ops/migracao-corpus-uni
 | 2026-11-15 | Fase 2: roadmap (#12), fila do F7 (#13), decisões (#14), `ops/` (#15), whitelist ancorada e runbook (#16); planos executados movidos para o vault |
 | 2026-11-15 | Passos 1.1 e 1.2 feitos; instruções do Projeto atualizadas pela dona |
 | 2026-11-15 | Plano publicado (#17). Passos 2.1 e 2.3 aprovados e registrados em `context/decisoes/`. Passo 1.3: Obsidian informado, teste de restauração pendente. Passo 1.4: prompt entregue |
+| 2026-11-15 | Passo 1.4 feito: `main` protegida (check `validar` para todos). #18 mergeado |
