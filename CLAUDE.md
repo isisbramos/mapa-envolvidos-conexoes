@@ -8,11 +8,11 @@ jornalísticas, com status por ligação ("Reportado" ou "Alegado ou contestado"
 Repo público `isisbramos/mapa-envolvidos-conexoes`, deploy na Vercel a cada push na `main`.
 Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`.
 - **Nomes:** título público neutro "Mapa de envolvidos e conexões"; o domínio mantém o nome. Nome guarda-chuva
-  da coleção está em aberto (decisão 11 do roadmap).
+  da coleção está em aberto (decisão 10 do `data/roadmap.md`).
 - **Termo legado, não usar:** "Documentado" (hoje é "Reportado"). O `README.md` ainda usa; é para corrigir.
 
 ## Estado em 1 minuto
-> last-reviewed: 2026-11-15 (números conferidos com `validate.py` nessa data; prioridades vêm do roadmap de 30/10)
+> last-reviewed: 2026-11-15 (números conferidos com `validate.py` nessa data; prioridades vêm de `data/roadmap.md`)
 - Produção: o último PR de conteúdo é o #9 (30/10); o #10 só adicionou este arquivo. Sem hash de commit aqui:
   ele se invalida no próprio merge. `git log -1` responde.
 - Conteúdo: 95 nós · 213 ligações · 95 perfis · 141 "Reportado" · 72 "Alegado ou contestado" · fotos 40/95.
@@ -32,12 +32,13 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
 | Build | `scripts/build.py` | Preserva `notes`, `stages` e o `<head>` do `index.html` |
 | Fotos e licenças | `photos/CREDITS.md` | Foto só com licença livre verificável |
 | Como contribuir | `CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md` | — |
-| Roadmap e decisões pendentes | (interino) `visao-global` no Projeto claude.ai "Eleiçoes" | Cópia fora do repo; vira `data/roadmap.md` na Fase 2 |
+| Roadmap, ordem e decisões pendentes | `data/roadmap.md` | Contagens não moram lá: ficam aqui e no `validate.py` |
 
 **Quando código e doc discordam, o código vence.**
 **Ignore:** `redesign-visual` (planilha antiga, não mergear); planos de 22–26/10 no Projeto claude.ai (históricos).
 
 ## Quando ler o quê
+- **O que fazer a seguir, decisões pendentes:** `data/roadmap.md`.
 - **Editar perfil, ligação ou status:** `EDITORIAL.md` → `CONTRIBUTING.md` → rodar `validate.py` e `build.py`.
 - **Fonte por ligação (F7/A2):** plano F7 (interino, no Projeto) + `EDITORIAL.md` §1 e §2.
 - **Foto ou logo:** `EDITORIAL.md` §4 → `photos/CREDITS.md`.
