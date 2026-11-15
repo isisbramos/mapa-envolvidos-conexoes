@@ -8,10 +8,10 @@ relatorio.txt
 
 # notas pessoais do vault isis-brain (não vão pro repo público)
 *.md
-!README.md
-!CONTRIBUTING.md
-!EDITORIAL.md
-!CLAUDE.md
+!/README.md
+!/CONTRIBUTING.md
+!/EDITORIAL.md
+!/CLAUDE.md
 !data/roadmap.md
 !data/fila-f7.md
 !context/README.md

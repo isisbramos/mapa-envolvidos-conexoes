@@ -120,7 +120,7 @@ A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (`context/decisoes/2
 |---|---|
 | 0. Inventário | ✅ 15/11 |
 | 1. Router | ✅ `CLAUDE.md` no ar; gate nas 3 portas em ajuste |
-| 2. Migração | Em andamento, um PR por conteúdo: roadmap ✅ → fila do F7 ✅ → decisões ✅ → analytics e prompt de migração ✅ → planos executados |
+| 2. Migração | ✅ 15/11, um PR por conteúdo: roadmap, fila do F7, decisões, `ops/` e planos executados (estes no vault local, fora do repo) |
 | 3. Write-back | Observar 2 sessões reais gravando sozinhas |
 | 4. Manutenção | `ops/manutencao.md` + tarefa mensal agendada |
 | 5. Legado | Arquivar cópias e trocar notas externas por links |

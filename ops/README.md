@@ -10,5 +10,6 @@ Procedimentos e referências operacionais. O que fazer a seguir: `data/roadmap.m
 | `analytics.md` | Umami: por que, como está ligado e a lista de eventos |
 | `migracao-corpus-unico.md` | Prompt de execução da B4 (fases 0 a 5). Não executar antes da decisão 11 do roadmap |
 
-Quando algo quebrar e for resolvido, o caso entra em `runbook.md` (criado junto com o primeiro caso). Arquivo novo
-aqui entra na whitelist do `.gitignore` no mesmo PR (`!ops/*.md` já cobre).
+| `runbook.md` | O que já quebrou e como se resolveu (sintoma, causa, diagnóstico, correção). Caso novo entra no topo |
+
+Arquivo novo aqui entra na whitelist do `.gitignore` no mesmo PR (`!ops/*.md` já cobre).

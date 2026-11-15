@@ -61,6 +61,8 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
   pseudônimo. Isso mora no vault privado.
 - O `.gitignore` bloqueia todo `*.md` (as notas privadas moram na mesma pasta, no Mac). Só os `.md` da
   whitelist vão ao GitHub; arquivo novo de contexto precisa entrar na whitelist no mesmo PR.
+- [2026-11-15] Entradas da whitelist na raiz levam `/` na frente (`!/README.md`). Sem isso, um `README.md` ou
+  `CLAUDE.md` de subpasta escapa do bloqueio. Depois de criar `.md` privado: `git check-ignore -v <arquivo>`.
 
 ## Write-back
 - Quando eu corrigir algo ou decidirmos algo, atualize o arquivo certo e diga em 1 linha o que mudou:
