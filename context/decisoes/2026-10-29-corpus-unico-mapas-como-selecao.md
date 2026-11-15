@@ -23,4 +23,4 @@ credibilidade vai junto.
 mistura refactor e conteúdo no mesmo diff. O A2 (fonte nas ligações) são vários PRs editoriais seguidos. A migração
 tem de mudar "nem uma vírgula" de conteúdo, e o critério de aceite é o JSON gerado idêntico ao de antes.
 
-**Onde se executa.** Prompt de migração (interino, no Projeto claude.ai); ainda não há arquivo no repo.
+**Onde se executa.** `ops/migracao-corpus-unico.md` (fases 0 a 5). Ainda não executada.
