@@ -124,3 +124,5 @@ A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (`context/decisoes/2
 | 3. Write-back | Observar 2 sessões reais gravando sozinhas |
 | 4. Manutenção | `ops/manutencao.md` + tarefa mensal agendada |
 | 5. Legado | Arquivar cópias e trocar notas externas por links |
+
+Passo a passo, quem faz cada coisa e o histórico: `data/plano-organizacao.md`.
