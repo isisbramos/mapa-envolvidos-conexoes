@@ -14,6 +14,7 @@ relatorio.txt
 !/CLAUDE.md
 !data/roadmap.md
 !data/fila-f7.md
+!data/plano-organizacao.md
 !context/README.md
 !context/decisoes/*.md
 !ops/*.md

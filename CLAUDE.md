@@ -34,6 +34,7 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
 | Como contribuir | `CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md` | — |
 | Roadmap, ordem e decisões pendentes | `data/roadmap.md` | Contagens não moram lá: ficam aqui e no `validate.py` |
 | Fila do F7 (fontes nas ligações "Alegado") | `data/fila-f7.md` | Números de linha deslocam se a aba `Edges` mudar; reconferir |
+| Plano de organização do projeto (playbook), passo a passo | `data/plano-organizacao.md` | Passo concluído é marcado ✅, nunca apagado |
 | Como operar: analytics e migração B4 | `ops/README.md` | A migração só roda depois da decisão 11 do roadmap |
 | Por que o projeto é como é (decisões datadas) | `context/README.md` → `context/decisoes/` | Uma decisão por arquivo; a substituída ganha status, não some |
 
