@@ -28,12 +28,13 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
 | --- | --- | --- |
 | Nós, ligações, perfis | `data/mapa.xlsx` | O JSON dentro do `index.html` é gerado; nunca editar à mão |
 | Regras editoriais | `EDITORIAL.md` | Planos antigos citam R1–R7; tradução na §7 |
-| Regras verificáveis | `scripts/validate.py` | Códigos V1–V11 do prompt de migração NÃO batem com o código real |
+| Regras verificáveis | `scripts/validate.py` | Códigos V1–V11 do plano antigo de migração NÃO batem com o código real |
 | Build | `scripts/build.py` | Preserva `notes`, `stages` e o `<head>` do `index.html` |
 | Fotos e licenças | `photos/CREDITS.md` | Foto só com licença livre verificável |
 | Como contribuir | `CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md` | — |
 | Roadmap, ordem e decisões pendentes | `data/roadmap.md` | Contagens não moram lá: ficam aqui e no `validate.py` |
 | Fila do F7 (fontes nas ligações "Alegado") | `data/fila-f7.md` | Números de linha deslocam se a aba `Edges` mudar; reconferir |
+| Como operar: analytics e migração B4 | `ops/README.md` | A migração só roda depois da decisão 11 do roadmap |
 | Por que o projeto é como é (decisões datadas) | `context/README.md` → `context/decisoes/` | Uma decisão por arquivo; a substituída ganha status, não some |
 
 **Quando código e doc discordam, o código vence.**
@@ -46,8 +47,8 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
 - **Fonte por ligação (F7/A2):** `data/fila-f7.md` + `EDITORIAL.md` §1 e §2.
 - **Foto ou logo:** `EDITORIAL.md` §4 → `photos/CREDITS.md`.
 - **SEO, indexação, assinatura:** não mexer sem decisão da dona do projeto.
-- **Analytics (Umami):** `<head>` do `index.html`; eventos listados no doc de analytics (interino).
-- **Migração para corpus único:** prompt de migração (interino). Fases 6–9 dele já foram feitas nos PRs #6 e #7.
+- **Analytics (Umami):** `ops/analytics.md` (o código vale: `<head>` do `index.html`).
+- **Migração para corpus único:** `ops/migracao-corpus-unico.md` (fases 0–5; só depois da decisão 11 do roadmap).
 
 ## Regras de produção
 - Merge e publicação só com aprovação explícita da dona. Um lote = um PR = um review.

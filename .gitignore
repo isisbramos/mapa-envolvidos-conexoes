@@ -16,6 +16,7 @@ relatorio.txt
 !data/fila-f7.md
 !context/README.md
 !context/decisoes/*.md
+!ops/*.md
 !LICENSE
 !photos/CREDITS.md
 !.github/PULL_REQUEST_TEMPLATE.md

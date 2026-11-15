@@ -28,4 +28,4 @@ alegação e fato).
 O `Id` estável (D6) já está previsto na migração para corpus único.
 
 **Onde se executa.** Ainda não há código. A proposta completa (riscos R1 a R10 e fases) está no plano original,
-interino, no Projeto claude.ai.
+`claude/plano-linha-do-tempo.md`, no Projeto claude.ai (histórico).

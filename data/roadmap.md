@@ -51,7 +51,7 @@ sustenta. A coluna `Fontes` existe para tornar isso visível.
 | B1 | Aba `Resumo`: fórmulas param na linha 36 e `Perfis` tem 96 linhas; os totais subcontam (V9) | S | Aberto |
 | B2 | Tag no Git a cada publicação + arquivamento externo (Internet Archive) | S | Aberto |
 | B3 | Apagar branches já contidas na `main`: `feature/analytics`, `feature/base-piaui`, `regra-fonte-por-ligacao`, `revisao-pos-2-turno`. Conferido em 15/11: nenhuma tem trabalho inédito (`feature/base-piaui` está na `main` com outros hashes, por rebase). Aprovado; falta rodar o comando no GitHub | S | **Aprovado, pendente** |
-| B4 | Migração para corpus único: um arquivo por entidade, ligações num CSV, mapas como seleção. Prompt de execução: interino, no Projeto (Fases 6 a 9 dele já foram feitas nos PRs #6 e #7) | M | Aberto |
+| B4 | Migração para corpus único: um arquivo por entidade, ligações num CSV, mapas como seleção. Prompt de execução: `ops/migracao-corpus-unico.md` (as fases de validador, CI e `EDITORIAL.md` do plano original já foram feitas nos PRs #6 e #7) | M | Aberto |
 | B5 | Flag `institucional` nas entidades (órgãos não contam como ponte entre mapas) | S | Decisão 8 |
 | B6 | ~~Sincronizar o checkout local com a `main`~~ | S | ✅ 15/11 |
 
@@ -120,7 +120,7 @@ A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (`context/decisoes/2
 |---|---|
 | 0. Inventário | ✅ 15/11 |
 | 1. Router | ✅ `CLAUDE.md` no ar; gate nas 3 portas em ajuste |
-| 2. Migração | Em andamento, um PR por conteúdo: roadmap ✅ → fila do F7 ✅ → decisões ✅ → analytics e prompt de migração → planos executados |
+| 2. Migração | Em andamento, um PR por conteúdo: roadmap ✅ → fila do F7 ✅ → decisões ✅ → analytics e prompt de migração ✅ → planos executados |
 | 3. Write-back | Observar 2 sessões reais gravando sozinhas |
 | 4. Manutenção | `ops/manutencao.md` + tarefa mensal agendada |
 | 5. Legado | Arquivar cópias e trocar notas externas por links |
