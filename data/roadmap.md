@@ -37,7 +37,7 @@ sustenta. A coluna `Fontes` existe para tornar isso visível.
 
 | # | Item | Esforço | Estado |
 |---|---|---|---|
-| A2 | **Fonte nas ligações "Alegado" abaixo de 2 fontes** (V7 lista as linhas). Para cada uma: achar a 2ª fonte independente, reescrever, rebaixar para "Reportado" (só se for registro oficial) ou cortar. 10 lotes, estimativa de 6 a 8 PRs, um lote por PR. Plano: F7 (interino, no Projeto claude.ai; vira `data/fila-f7.md`) | M a L | **Próximo passo** |
+| A2 | **Fonte nas ligações "Alegado" abaixo de 2 fontes** (V7 lista as linhas). Para cada uma: achar a 2ª fonte independente, reescrever, rebaixar para "Reportado" (só se for registro oficial) ou cortar. 10 lotes, estimativa de 6 a 8 PRs, um lote por PR. Plano e lotes: `data/fila-f7.md` | M a L | **Próximo passo** |
 | A3 | Nenhuma "Reportado" apoiada só em uma fonte que não é primária (ICL, vídeo). Depende de A2 | L | Aberto |
 | A5 | Uma ligação "Alegado" cujas duas coberturas remetem à mesma apuração. Decidir: manter, rebaixar ou cortar | S | Decisão 1 |
 | A6 | Fotos: faltam em 55 perfis. Só entra com licença livre verificável | M | Decisão 5 |
@@ -119,7 +119,7 @@ A linha do tempo (D4) tem plano e decisões D1 a D6 prontos (ADR em `context/dec
 |---|---|
 | 0. Inventário | ✅ 15/11 |
 | 1. Router | ✅ `CLAUDE.md` no ar; gate nas 3 portas em ajuste |
-| 2. Migração | Em andamento, um PR por conteúdo: roadmap (este) → fila do F7 → decisões → analytics e prompt de migração → planos executados |
+| 2. Migração | Em andamento, um PR por conteúdo: roadmap ✅ → fila do F7 ✅ → decisões → analytics e prompt de migração → planos executados |
 | 3. Write-back | Observar 2 sessões reais gravando sozinhas |
 | 4. Manutenção | `ops/manutencao.md` + tarefa mensal agendada |
 | 5. Legado | Arquivar cópias e trocar notas externas por links |
