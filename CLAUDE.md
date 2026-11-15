@@ -12,8 +12,9 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
 - **Termo legado, não usar:** "Documentado" (hoje é "Reportado"). O `README.md` ainda usa; é para corrigir.
 
 ## Estado em 1 minuto
-> last-reviewed: 2026-11-15 (repo conferido na `main` @ `88c9d7f`, 30/10; prioridades vêm do roadmap de 30/10)
-- Produção: `main` @ `88c9d7f` (PR #9, 30/10). Nenhum commit novo desde então.
+> last-reviewed: 2026-11-15 (números conferidos com `validate.py` nessa data; prioridades vêm do roadmap de 30/10)
+- Produção: o último PR de conteúdo é o #9 (30/10); o #10 só adicionou este arquivo. Sem hash de commit aqui:
+  ele se invalida no próprio merge. `git log -1` responde.
 - Conteúdo: 95 nós · 213 ligações · 95 perfis · 141 "Reportado" · 72 "Alegado ou contestado" · fotos 40/95.
 - Validador: 0 erros, 3 avisos (V6, V7, V9); roda no CI junto com build e checagem de sincronia.
 - Regra F7 (2 fontes por ligação "Alegado"): 1 de 72 cumprida. Hoje é aviso; vira erro quando V7 = 0.
@@ -46,6 +47,7 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
 
 ## Regras de produção
 - Merge e publicação só com aprovação explícita da dona. Um lote = um PR = um review.
+- Antes de qualquer sessão no clone local, `git pull --ff-only`: a pasta do Mac já chegou a 16 commits atrás.
 - Todo PR traz a tabela "o que entrou / o que ficou de fora e por quê".
 - `data/mapa.xlsx` e `index.html` vão no mesmo commit; o CI barra quem esquecer o build.
 - Nunca citar como lida matéria que não foi aberta. Paywall: a dona cola o texto.
@@ -62,6 +64,7 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
   - correção editorial recorrente → `EDITORIAL.md` (editar a regra, não duplicar)
   - algo quebrou e foi resolvido → `ops/runbook.md` (criar junto com o 1º caso)
 - Gravou num arquivo da área? Confira se o "Estado em 1 minuto" também mudou.
+- No "Estado em 1 minuto", só entra fato que sobrevive ao merge: contagens, regras, prioridade. Nada de hash.
 - Regras novas entram com data: `- [AAAA-MM-DD] ...`. Antes de adicionar, procure uma parecida.
 - Write-back nunca muda conteúdo publicado: isso segue o fluxo de PR e aprovação.
 
