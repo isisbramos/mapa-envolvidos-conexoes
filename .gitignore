@@ -14,6 +14,8 @@ relatorio.txt
 !CLAUDE.md
 !data/roadmap.md
 !data/fila-f7.md
+!context/README.md
+!context/decisoes/*.md
 !LICENSE
 !photos/CREDITS.md
 !.github/PULL_REQUEST_TEMPLATE.md
