@@ -12,15 +12,17 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
 - **Termo legado, não usar:** "Documentado" (hoje é "Reportado"). O `README.md` ainda usa; é para corrigir.
 
 ## Estado em 1 minuto
-> last-reviewed: 2026-11-15 (números conferidos com `validate.py` nessa data; prioridades vêm de `data/roadmap.md`)
-- Produção: o último PR de conteúdo é o #9 (30/10); o #10 só adicionou este arquivo. Sem hash de commit aqui:
-  ele se invalida no próprio merge. `git log -1` responde.
+> last-reviewed: 2026-11-16 (números conferidos com `validate.py` nessa data; prioridades vêm de `data/roadmap.md`)
+- Produção: o último PR de conteúdo mergeado é o #9 (30/10); o #21 (lote 1 do A2) está aberto, aguardando
+  aprovação da dona. Sem hash de commit aqui: ele se invalida no próprio merge. `git log -1` responde.
 - Conteúdo: 95 nós · 213 ligações · 95 perfis · 141 "Reportado" · 72 "Alegado ou contestado" · fotos 40/95.
 - Validador: 0 erros, 3 avisos (V6, V7, V9); roda no CI junto com build e checagem de sincronia.
-- Regra F7 (2 fontes por ligação "Alegado"): 1 de 72 cumprida. Hoje é aviso; vira erro quando V7 = 0.
+- Regra F7 (2 fontes por ligação "Alegado"): 1 de 72 cumprida em produção; 8 de 72 no PR #21 (lote 1, não
+  mergeado). Hoje é aviso; vira erro quando V7 = 0.
 - Abertura ao público: `noindex, nofollow` ligado; assinatura por pseudônimo. Os dois mudam juntos, só depois
   do fim do F7/E6 e de leitura jurídica. Nenhum dos dois se desfaz com um commit.
-- Prioridade atual: A2, fontes nas 71 ligações "Alegado", em lotes (um lote = um PR).
+- Prioridade atual: A2, fontes nas 71 ligações "Alegado", em lotes (um lote = um PR). Lote 1 pronto no PR
+  #21; lote 2 é o próximo depois do merge.
 - Mapa 2 (prefeitos) e "juntar mapas" dependem da migração B4 (corpus único), ainda não feita.
 
 ## Onde está a verdade
