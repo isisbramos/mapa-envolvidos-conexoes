@@ -1,6 +1,6 @@
 # Fila do F7 (item A2 do roadmap)
 
-> last-reviewed: 2026-11-15
+> last-reviewed: 2026-11-16
 
 Fila de trabalho para fechar a regra F7: toda ligação "Alegado ou contestado" precisa de 2 fontes
 independentes na própria ligação. As "Reportado" seguem apoiadas nas fontes do perfil das duas pontas e
@@ -45,7 +45,7 @@ então o número de URLs únicas deve ser bem menor que 142.
 
 | Lote | Perfil do lote | Qtd | Linhas da aba `Edges` | Estado |
 |---|---|---|---|---|
-| 1 | Núcleo do site, com mais cobertura pública. **Revisão extra** | 7 | 60, 61, 62, 121, 122, 123, 124 | Aberto |
+| 1 | Núcleo do site, com mais cobertura pública. **Revisão extra** | 7 | 60, 61, 62, 121, 122, 123, 124 | PR #21 (16/11), aguardando aprovação |
 | 2 | Testemunhas já citadas; 2ª fonte provável no perfil | 7 | 56, 100, 105, 106, 107, 108, 182 | Aberto |
 | 3a | Ligações institucionais, parte com fonte única de jornal | 8 | 33, 34, 35, 110, 114, 115, 129, 168 | Aberto |
 | 3b | Maior bloco; muita fonte de relatório da PF | 10 | 134, 135, 136, 137, 138, 145, 146, 147, 150, 152 | Aberto |
