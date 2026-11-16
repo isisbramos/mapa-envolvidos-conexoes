@@ -45,7 +45,7 @@ então o número de URLs únicas deve ser bem menor que 142.
 
 | Lote | Perfil do lote | Qtd | Linhas da aba `Edges` | Estado |
 |---|---|---|---|---|
-| 1 | Núcleo do site, com mais cobertura pública. **Revisão extra** | 7 | 60, 61, 62, 121, 122, 123, 124 | PR #21 (16/11), aguardando aprovação |
+| 1 | Núcleo do site, com mais cobertura pública. **Revisão extra** | 7 | 60, 61, 62, 121, 122, 123, 124 | Fechado, PR #21 (16/11) |
 | 2 | Testemunhas já citadas; 2ª fonte provável no perfil | 7 | 56, 100, 105, 106, 107, 108, 182 | Aberto |
 | 3a | Ligações institucionais, parte com fonte única de jornal | 8 | 33, 34, 35, 110, 114, 115, 129, 168 | Aberto |
 | 3b | Maior bloco; muita fonte de relatório da PF | 10 | 134, 135, 136, 137, 138, 145, 146, 147, 150, 152 | Aberto |
