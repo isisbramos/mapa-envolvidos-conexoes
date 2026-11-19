@@ -59,10 +59,10 @@ Prova que uma sessão nova, só com o `CLAUDE.md`, grava o que mudou no arquivo 
 
 | ID | Quem | Passo | Estado |
 |---|---|---|---|
-| 3.1 | Isis | **Sessão 1:** abrir uma sessão **nova** do Claude Code na pasta do Mac e dizer só "Vamos começar o lote 1 do A2". Trazer o diff ou o PR | ⬜ liberado (o 2.1 está ✅) |
+| 3.1 | Isis | **Sessão 1:** abrir uma sessão **nova** do Claude Code na pasta do Mac e dizer só "Vamos começar o lote 1 do A2". Trazer o diff ou o PR | ✅ 16/11, lote 1 do A2 (PRs #21 e #22) |
 | 3.2 | Isis | **Sessão 2:** sessão nova para decidir a 11 (passo 2.2) | ⬜ |
-| 3.3 | Claude | Conferir cada sessão: leu o router antes; gravou no arquivo certo; "Estado em 1 minuto" mudou quando devia e sem hash; nada sensível no repo; resumiu em 1 linha | ⬜ |
-| 3.4 | Claude | Se algo falhou: PR que ajusta a redação do router; repetir só a sessão que falhou | ⬜ |
+| 3.3 | Claude | Conferir cada sessão: leu o router antes; gravou no arquivo certo; "Estado em 1 minuto" mudou quando devia e sem hash; nada sensível no repo; resumiu em 1 linha | 🔸 Sessão 1 conferida em 19/11: passou, com 1 ajuste (veja o log). Falta a sessão 2 |
+| 3.4 | Claude | Se algo falhou: PR que ajusta a redação do router; repetir só a sessão que falhou | ✅ 19/11 para a sessão 1: regra datada no router. Se a sessão 2 falhar em outro ponto, repete |
 
 **Passou** quando as duas sessões cumprem os 5 critérios. O resultado entra no log.
 
@@ -107,3 +107,4 @@ A migração B4 não está aqui: tem prompt próprio em `ops/migracao-corpus-uni
 | 2026-11-15 | Plano publicado (#17). Passos 2.1 e 2.3 aprovados e registrados em `context/decisoes/`. Passo 1.3: Obsidian informado, teste de restauração pendente. Passo 1.4: prompt entregue |
 | 2026-11-15 | Passo 1.4 feito: `main` protegida (check `validar` para todos). #18 mergeado |
 | 2026-11-16 | #19 mergeado. Passo 1.3 (backup) adiado pela dona; as notas privadas seguem só no Mac. Reavaliar na primeira revisão mensal |
+| 2026-11-19 | Fase 3, sessão 1 (lote 1 do A2, #21 e #22), conferida contra o repo. Passou: arquivo certo (estado e fila, sem `.md` solto), sem hash, contagens corretas (F7 8 de 72; 141 e 72 intactos), nada sensível, `validate.py` 0 erros e os mesmos 3 avisos. Ajuste: o #21 escreveu "PR aberto, aguardando aprovação" no estado e na fila, fato que morre no merge, e precisou do #22 para corrigir. Corrigido com regra datada no router. Pontos de conteúdo para a dona na linha 124 (fonte registrada por republicação) e na linha 122 (data "2026" sem dia) |

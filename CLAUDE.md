@@ -77,6 +77,8 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
   - algo quebrou e foi resolvido → `ops/runbook.md` (criar junto com o 1º caso)
 - Gravou num arquivo da área? Confira se o "Estado em 1 minuto" também mudou.
 - No "Estado em 1 minuto", só entra fato que sobrevive ao merge: contagens, regras, prioridade. Nada de hash.
+- [2026-11-19] Nada de "PR aberto" ou "aguardando aprovação" no estado nem na fila: no PR do lote, escreva já como
+  ficará depois do merge ("Fechado, PR #N"), no mesmo PR. Não abra um PR separado só de write-back.
 - Regras novas entram com data: `- [AAAA-MM-DD] ...`. Antes de adicionar, procure uma parecida.
 - Write-back nunca muda conteúdo publicado: isso segue o fluxo de PR e aprovação.
 
