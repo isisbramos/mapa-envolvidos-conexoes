@@ -1,6 +1,6 @@
 # Fila do F7 (item A2 do roadmap)
 
-> last-reviewed: 2026-11-16
+> last-reviewed: 2026-11-19
 
 Fila de trabalho para fechar a regra F7: toda ligação "Alegado ou contestado" precisa de 2 fontes
 independentes na própria ligação. As "Reportado" seguem apoiadas nas fontes do perfil das duas pontas e
@@ -46,7 +46,7 @@ então o número de URLs únicas deve ser bem menor que 142.
 | Lote | Perfil do lote | Qtd | Linhas da aba `Edges` | Estado |
 |---|---|---|---|---|
 | 1 | Núcleo do site, com mais cobertura pública. **Revisão extra** | 7 | 60, 61, 62, 121, 122, 123, 124 | Fechado, PR #21 (16/11) |
-| 2 | Testemunhas já citadas; 2ª fonte provável no perfil | 7 | 56, 100, 105, 106, 107, 108, 182 | Aberto |
+| 2 | Testemunhas já citadas; 2ª fonte provável no perfil | 7 | 56, 100, 105, 106, 107, 108, 182 | Fechado, PR #24 (19/11) |
 | 3a | Ligações institucionais, parte com fonte única de jornal | 8 | 33, 34, 35, 110, 114, 115, 129, 168 | Aberto |
 | 3b | Maior bloco; muita fonte de relatório da PF | 10 | 134, 135, 136, 137, 138, 145, 146, 147, 150, 152 | Aberto |
 | 4 | Mensagens e relatórios da PF | 10 | 130, 153, 157, 158, 159, 162, 164, 201, 210, 212 | Aberto |
@@ -57,6 +57,11 @@ então o número de URLs únicas deve ser bem menor que 142.
 | 6d | Menor volume | 3 | 7, 11, 12 | Aberto |
 
 Total: 71. Ao fechar um lote, atualize a coluna "Estado" (PR e data) e o `last-reviewed` deste arquivo.
+
+- [2026-11-19] Linha 182 (lote 2) foi rebaixada para "Reportado" (decisão da dona) e saiu do universo
+  "Alegado ou contestado" — por isso não entra mais na contagem do V7, mesmo citada na linha do lote 2 acima.
+- [2026-11-19] Linhas 56, 105, 106 (lote 2) ficaram fechadas com 1 fonte só e nota de apuração única — ver
+  `Nota da fonte` na planilha. O validador continua contando como "abaixo de 2 fontes" (V7); é esperado.
 
 ## Riscos
 
