@@ -12,17 +12,18 @@ Site: comquemandaflaviobolsonaro.space. Planilha → `build.py` → `index.html`
 - **Termo legado, não usar:** "Documentado" (hoje é "Reportado"). O `README.md` ainda usa; é para corrigir.
 
 ## Estado em 1 minuto
-> last-reviewed: 2026-11-16 (números conferidos com `validate.py` nessa data; prioridades vêm de `data/roadmap.md`)
-- Produção: o último PR de conteúdo mergeado é o #21 (16/11, lote 1 do A2). Sem hash de commit aqui:
+> last-reviewed: 2026-11-19 (números conferidos com `validate.py` nessa data; prioridades vêm de `data/roadmap.md`)
+- Produção: o último PR de conteúdo mergeado é o #24 (19/11, lote 2 do A2). Sem hash de commit aqui:
   ele se invalida no próprio merge. `git log -1` responde.
-- Conteúdo: 95 nós · 213 ligações · 95 perfis · 141 "Reportado" · 72 "Alegado ou contestado" · fotos 40/95.
+- Conteúdo: 95 nós · 213 ligações · 95 perfis · 142 "Reportado" · 71 "Alegado ou contestado" · fotos 40/95.
 - Validador: 0 erros, 3 avisos (V6, V7, V9); roda no CI junto com build e checagem de sincronia.
-- Regra F7 (2 fontes por ligação "Alegado"): 8 de 72 cumprida (lote 1 mergeado no PR #21). Hoje é aviso;
-  vira erro quando V7 = 0.
+- Regra F7 (2 fontes por ligação "Alegado"): 11 de 71 cumprida (lotes 1 e 2 mergeados). Hoje é aviso;
+  vira erro quando V7 = 0. Nem toda ligação fechada chega a 2 fontes: 3 da lote 2 ficaram com 1 fonte
+  registrada e nota de apuração única (decisão da dona), igual ao caso mantega→vorcaro do `EDITORIAL.md`.
 - Abertura ao público: `noindex, nofollow` ligado; assinatura por pseudônimo. Os dois mudam juntos, só depois
   do fim do F7/E6 e de leitura jurídica. Nenhum dos dois se desfaz com um commit.
-- Prioridade atual: A2, fontes nas 64 ligações "Alegado" restantes, em lotes (um lote = um PR). Lote 1
-  fechado; lote 2 é o próximo (`data/fila-f7.md`).
+- Prioridade atual: A2, fontes nas ligações "Alegado" restantes, em lotes (um lote = um PR). Lotes 1 e 2
+  fechados; lote 3a é o próximo (`data/fila-f7.md`).
 - Mapa 2 (prefeitos) e "juntar mapas" dependem da migração B4 (corpus único), ainda não feita.
 
 ## Onde está a verdade
