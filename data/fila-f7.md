@@ -47,7 +47,7 @@ então o número de URLs únicas deve ser bem menor que 142.
 |---|---|---|---|---|
 | 1 | Núcleo do site, com mais cobertura pública. **Revisão extra** | 7 | 60, 61, 62, 121, 122, 123, 124 | Fechado, PR #21 (16/11) |
 | 2 | Testemunhas já citadas; 2ª fonte provável no perfil | 7 | 56, 100, 105, 106, 107, 108, 182 | Fechado, PR #24 (19/11) |
-| 3a | Ligações institucionais, parte com fonte única de jornal | 8 | 33, 34, 35, 110, 114, 115, 129, 168 | Aberto |
+| 3a | Ligações institucionais, parte com fonte única de jornal | 8 | 33, 34, 35, 110, 114, 115, 129, 168 | Fechado, PR #26 (19/11) |
 | 3b | Maior bloco; muita fonte de relatório da PF | 10 | 134, 135, 136, 137, 138, 145, 146, 147, 150, 152 | Aberto |
 | 4 | Mensagens e relatórios da PF | 10 | 130, 153, 157, 158, 159, 162, 164, 201, 210, 212 | Aberto |
 | 5 | O mais sensível. **Revisão extra** | 7 | 65, 66, 67, 68, 70, 73, 74 | Aberto |
@@ -62,6 +62,8 @@ Total: 71. Ao fechar um lote, atualize a coluna "Estado" (PR e data) e o `last-r
   "Alegado ou contestado" — por isso não entra mais na contagem do V7, mesmo citada na linha do lote 2 acima.
 - [2026-11-19] Linhas 56, 105, 106 (lote 2) ficaram fechadas com 1 fonte só e nota de apuração única — ver
   `Nota da fonte` na planilha. O validador continua contando como "abaixo de 2 fontes" (V7); é esperado.
+- [2026-11-19] Linha 168 (lote 3a) fechada com 1 fonte só (apuração do PlatôBR, só repercutida por outros
+  veículos) — mesmo caso das três linhas acima.
 
 ## Riscos
 
